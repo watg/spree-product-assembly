@@ -13,7 +13,7 @@ Spree::Product.class_eval do
     not_deleted.individual_saled.available(nil, args.first)
   }
 
-  attr_accessible :can_be_part, :individual_sale
+  attr_accessible :can_be_part, :individual_sale, :kit, :ready_to_wear
 
   def add_part(variant, count = 1)
     ap = Spree::AssembliesPart.get(self.id, variant.id)
