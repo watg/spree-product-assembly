@@ -1,0 +1,2 @@
+$("#current_parts").html("<%= escape_javascript(render(:partial => "parts_table", :locals => {:parts => @variant.parts})) %>");
+$("#search_hits").hide();

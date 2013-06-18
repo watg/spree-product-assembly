@@ -1,0 +1,78 @@
+<%= render :partial => 'spree/admin/shared/product_sub_menu' %>
+
+<%= render :partial => 'spree/admin/shared/product_tabs', :locals => {:current => "Parts"} %>
+
+<fieldset>
+  <legend align="center"><%= "#{Spree.t(:variant)}: #{@variant.options_text}" %></legend>
+
+  <div id="current_parts">
+    <%= render :partial => "parts_table", :locals => {:parts => @parts} %>
+  </div>
+
+  <%= form_tag('#') do %>
+    <label><%= t('search') %>:</label>
+    <input id="searchtext" size="25">
+  <% end %>
+
+  <br/>
+  <div id="search_hits"></div>
+
+</fieldset>
+<%= javascript_tag do %>
+  /*!
+   * Spree Product Assembly
+   * https://github.com/spree/spree-product-assembly
+   *
+   */
+
+  function search_for_parts(){
+    $.ajax({
+     data: {q: $("#searchtext").val() }, 
+     dataType: 'html',
+     success: function(request){
+       jQuery('#search_hits').html(request);
+       $('#search_hits').show();
+     }, 
+     type: 'POST', 
+     url: '<%= available_admin_product_variant_parts_url(@product) %>'
+    });    
+  }
+
+  $("#searchtext").keypress(function (e) {
+    if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
+      search_for_parts();
+      return false;
+    } else {
+       return true;
+    }
+  });
+
+  $("#searchtext").delayedObserver(function(element, value) {
+    search_for_parts();
+  }, 0.75);
+
+  function subscribe_product_variant_part_links()
+  {
+    $("a.set_count_admin_product_variant_part_link").click(function(){
+      params = { count :  $("input", $(this).parent().parent()).val() };
+      return make_post_request($(this), params);
+    });
+    
+    $("a.remove_admin_product_variant_part_link").click(function(){
+      return make_post_request($(this), {});
+    });
+  }
+
+  function make_post_request(link, post_params)
+  {
+    spinner = $("img.spinner", link.parent())
+    spinner.show();
+    $.post(link.attr("href"), post_params,
+      function (data, textStatus) { spinner.hide(); },
+      "script");
+
+    return false;
+  }
+
+  subscribe_product_variant_part_links();
+<% end -%>
