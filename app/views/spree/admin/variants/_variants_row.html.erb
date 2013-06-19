@@ -4,7 +4,18 @@
   </td>
   <td><%= variant.options_text %></td>
   <td class="align-center"><%= variant.display_price.to_html %></td>
-  <td class="align-center"><%= variant.sku %></td>
+  <td>
+  <table>
+    <% variant.parts.each do |part| %>
+      <tr>
+        <td><%= part.name %></td>
+        <td><%= part.options_text %></td>
+        <td><%= variant.count_of(part) %></td>
+      </tr>
+    <% end %>
+  </table>
+  </td>
+
   <td class="actions">
     <%= link_to_edit(variant, :no_text => true) unless variant.deleted? %>
     &nbsp;

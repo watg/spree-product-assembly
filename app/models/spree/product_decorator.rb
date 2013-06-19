@@ -2,10 +2,13 @@ Spree::Product.class_eval do
   has_and_belongs_to_many  :assemblies, :class_name => "Spree::Product",
         :join_table => "spree_assemblies_parts",
         :foreign_key => "part_id", :association_foreign_key => "assembly_id"
+  
+  #has_and_belongs_to_many  :parts, :class_name => "Spree::Variant",
+  #      :join_table => "spree_assemblies_parts",
+  #      :foreign_key => "assembly_id", :association_foreign_key => "part_id"
 
-  has_and_belongs_to_many  :parts, :class_name => "Spree::Variant",
-        :join_table => "spree_assemblies_parts",
-        :foreign_key => "assembly_id", :association_foreign_key => "part_id"
+  has_many :assemblies_parts, :as => :assembly
+  has_many :parts, :through => :assemblies_parts, :class_name => "Spree::Variant"
 
   scope :individual_saled, where(["spree_products.individual_sale = ?", true])
 

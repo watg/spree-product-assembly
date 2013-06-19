@@ -1,11 +1,15 @@
 Spree::Variant.class_eval do
-  has_and_belongs_to_many  :assemblies, :class_name => "Spree::Product",
+  has_and_belongs_to_many  :assemblies, :class_name => "Spree::Variant",
         :join_table => "spree_assemblies_parts",
         :foreign_key => "part_id", :association_foreign_key => "assembly_id"
 
-  has_and_belongs_to_many  :parts, :class_name => "Spree::Variant",
-        :join_table => "spree_assemblies_parts",
-        :foreign_key => "assembly_id", :association_foreign_key => "part_id"
+#  has_and_belongs_to_many  :parts, :class_name => "Spree::Variant",
+#        :join_table => "spree_assemblies_parts",
+#        :foreign_key => "assembly_id", :association_foreign_key => "part_id"
+
+
+  has_many :assemblies_parts, :as => :assembly
+  has_many :parts, :through => :assemblies_parts, :class_name => "Spree::Variant"
 
   def assemblies_for(products)
     assemblies.where("spree_assemblies_parts.assembly_id = ?", products)
@@ -57,6 +61,17 @@ Spree::Variant.class_eval do
   def count_of(variant)
     ap = Spree::AssembliesPart.get(self.id, variant.id)
     ap ? ap.count : 0
+  end
+
+
+  def parts_text
+    values = self.parts
+
+    values.map! do |pv|
+      "#{pv.product.name}(#{pv.options_text}) x #{self.count_of(pv)}"
+    end
+
+    values.to_sentence({ words_connector: ", ", two_words_connector: ", " })
   end
 
 
