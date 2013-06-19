@@ -3,16 +3,39 @@
 
   <h6>Contents</h6>
 
-  <ul id="product_parts" class="inline product-listing" data-hook>
-    <% @product.parts.each do |part| %>
-      <% if part.in_stock? %> 
-        <li id="product_<%= part.product.id %>" class="columns three <%= cycle("alpha", "secondary", "", "omega secondary") %>" data-hook="products_list_item" itemscope itemtype="http://schema.org/Product"> 
-          <%= link_to truncate(part.product.name, :length => 50), part.product, :class => 'info', :itemprop => "name", :title => part.product.name %>
-          <% if part.product.individual_sale? %>
-          <% end %>
-        </li>
+<ul id="product_parts" class="product-listing" data-hook>
+      <% @product.kit_parts.each do |part| %>
+      <li>
+        <% if part.product.individual_sale? %>
+           <%= link_to truncate("#{part.count_part} #{part.label}", :length => 50),  part.product, :class => 'info', :itemprop => "name", :title  => part.label %>
+        <% else %>
+        <%=  truncate("#{part.count_part} #{part.label}", :length => 50) %>
+        <% end %>
+      </li>
+      <% end %>
+  
+
+    <% @product.variants.each_with_index do |variant, i| %>
+      <% variant.kit_parts.each do |part| %>
+      <li class="variant-kit-parts <%= variant.id %>" style="display:<%= (i==0 ? 'show': 'none')%>;">
+        <% if part.product.individual_sale? %>
+           <%= link_to truncate("#{part.count_part} #{part.label}", :length => 50), part.product, :class => 'info', :itemprop => "name", :title  => part.label %>
+        <% else %>
+        <%= truncate("#{part.count_part} #{part.label}", :length => 50) %>
+        <% end %>
+      </li>
       <% end %>
     <% end %>
+
   </ul>
 
 <% end %>
+
+<script type="text/javascript">
+   $("#product-variants ul input").on('change', function(e){ 
+     var id = $(this).val(); 
+     var selector = "#product_parts li."+id; 
+     $('#product_parts li.variant-kit-parts').hide(); 
+     $(selector).show()
+   });
+</script>

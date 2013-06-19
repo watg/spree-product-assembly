@@ -1,0 +1,5 @@
+<% [:label].each do |field| %>
+    <div class="field" data-hook="<%= field %>"><%= f.label field, Spree.t(field) %>
+      <%= f.text_field field, :class => 'fullwidth' %>
+    </div>
+<% end %>

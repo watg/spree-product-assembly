@@ -8,6 +8,7 @@ gem 'pry-rails'
 group :assets do
   gem 'coffee-rails', '~> 3.2.2'
   gem 'sass-rails', '~> 3.2.6'
+gem 'therubyracer'
 end
 
 group :test do

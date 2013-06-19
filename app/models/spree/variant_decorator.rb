@@ -11,6 +11,10 @@ Spree::Variant.class_eval do
   has_many :assemblies_parts, :as => :assembly
   has_many :parts, :through => :assemblies_parts, :class_name => "Spree::Variant"
 
+  attr_accessor :count_part
+
+  attr_accessible :label
+  
   def assemblies_for(products)
     assemblies.where("spree_assemblies_parts.assembly_id = ?", products)
   end
@@ -74,5 +78,18 @@ Spree::Variant.class_eval do
     values.to_sentence({ words_connector: ", ", two_words_connector: ", " })
   end
 
+  def kit_parts
+    parts.map do |p|
+      # this is to have the count of the part counted by the variant
+      p.count_part = count_of(p)
 
+      # old data structure
+      # {count: count_of(p), id: p.id, text: p.name, sellable: p.product.individual_sale?}
+      p
+    end
+  end
+
+  def label
+    super || product.name
+  end
 end

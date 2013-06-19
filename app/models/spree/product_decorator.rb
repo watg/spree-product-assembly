@@ -18,6 +18,8 @@ Spree::Product.class_eval do
 
   attr_accessible :can_be_part, :individual_sale, :kit, :ready_to_wear
 
+  attr_accessor :count_part
+  
   def add_part(variant, count = 1)
     ap = Spree::AssembliesPart.get(self.id, variant.id)
     if ap
@@ -65,4 +67,16 @@ Spree::Product.class_eval do
     ap = Spree::AssembliesPart.get(self.id, variant.id)
     ap ? ap.count : 0
   end
+
+  def kit_parts
+    parts.map do |p|
+      # this is to have the count of the part counted by the variant
+      p.count_part = count_of(p)
+
+      # old data structure
+      # {count: count_of(p), id: p.id, text: p.name, sellable: p.product.individual_sale?}
+      p
+    end
+  end
+
 end
