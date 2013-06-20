@@ -4,7 +4,7 @@ Spree::Core::Engine.routes.append do
     resources :products do
 
       resources :variants do
-        resources :parts, :controller => 'variants/parts' do
+        resources :parts, :controller => 'variant_parts' do
           member do
             post :select
             post :remove
@@ -17,7 +17,7 @@ Spree::Core::Engine.routes.append do
         end
       end
 
-      resources :parts do
+      resources :parts, :controller => 'product_parts' do
         member do
           post :select
           post :remove

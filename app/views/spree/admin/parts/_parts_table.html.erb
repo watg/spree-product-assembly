@@ -14,16 +14,16 @@
         <td><%= part.sku %></td>
         <td><%= part.product.name %></td>
         <td><%= variant_options part %></td>
-        <td><%= text_field_tag :count, @product.count_of(part) %></td>
+        <td><%= text_field_tag :count, @item.count_of(part) %></td>
   	    <td class="actions">
           <%= image_tag "spinner.gif", :style => "display:none", :class => "spinner" %>
           <%= link_to(icon('edit') + ' ' + t('update'),
-                      set_count_admin_product_part_url(@product, part),
-                      :class => "set_count_admin_product_part_link") %>
+                      set_count_admin_item_part_url(@item, part),
+                      :class => "set_count_admin_item_part_link") %>
 
           <%= link_to(icon('delete') + ' ' + t('remove'), 
-                      remove_admin_product_part_url(@product, part),
-                      :class => "remove_admin_product_part_link") %>             
+                      remove_admin_item_part_url(@item, part),
+                      :class => "remove_admin_item_part_link") %>             
   	    </td>        
       </tr>
     <% end %>
@@ -32,4 +32,4 @@
     <% end %>
   </tbody>
 </table>
-<%= javascript_tag("subscribe_product_part_links();") if request.xhr? %>
+<%= javascript_tag("subscribe_item_part_links();") if request.xhr? %>

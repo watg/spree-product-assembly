@@ -1,7 +1,7 @@
 <%= render :partial => 'spree/admin/shared/product_sub_menu' %>
 
 <%= render :partial => 'spree/admin/shared/product_tabs', :locals => {:current => "Parts"} %>
-<div id="product_parts">
+<div id="item_parts">
   <%= render :partial => "parts_table", :locals => {:parts => @parts} %>
 </div>
 
@@ -13,11 +13,6 @@
 <br/>
 <div id="search_hits"></div>
 <%= javascript_tag do %>
-  /*!
-   * Spree Product Assembly
-   * https://github.com/spree/spree-product-assembly
-   *
-   */
 
   function search_for_parts(){
     $.ajax({
@@ -28,7 +23,7 @@
        $('#search_hits').show();
      }, 
      type: 'POST', 
-     url: '<%= available_admin_product_parts_url(@product) %>'
+     url: '<%= available_admin_item_parts_url(@item) %>'
     });    
   }
 
@@ -45,14 +40,14 @@
     search_for_parts();
   }, 0.75);
 
-  function subscribe_product_part_links()
+  function subscribe_item_part_links()
   {
-    $("a.set_count_admin_product_part_link").click(function(){
+    $("a.set_count_admin_item_part_link").click(function(){
       params = { count :  $("input", $(this).parent().parent()).val() };
       return make_post_request($(this), params);
     });
     
-    $("a.remove_admin_product_part_link").click(function(){
+    $("a.remove_admin_item_part_link").click(function(){
       return make_post_request($(this), {});
     });
   }
@@ -68,5 +63,5 @@
     return false;
   }
 
-  subscribe_product_part_links();
+  subscribe_item_part_links();
 <% end -%>

@@ -1,19 +1,19 @@
 class Spree::Admin::PartsController < Spree::Admin::BaseController
-  before_filter :find_product
+  before_filter :find_item
 
   def index
-    @parts = @product.parts
+    @parts = @item.parts
   end
 
   def remove
     @part = Spree::Variant.find(params[:id])
-    @product.remove_part(@part)
+    @item.remove_part(@part)
     render 'spree/admin/parts/update_parts_table'
   end
 
   def set_count
     @part = Spree::Variant.find(params[:id])
-    @product.set_part_count(@part, params[:count].to_i)
+    @item.set_part_count(@part, params[:count].to_i)
     render 'spree/admin/parts/update_parts_table'
   end
 
@@ -35,12 +35,13 @@ class Spree::Admin::PartsController < Spree::Admin::BaseController
   def create
     @part = Spree::Variant.find(params[:part_id])
     qty = params[:part_count].to_i
-    @product.add_part(@part, qty) if qty > 0
+    @item.add_part(@part, qty) if qty > 0
     render 'spree/admin/parts/update_parts_table'
   end
 
   private
-    def find_product
-      @product = Spree::Product.find_by_permalink(params[:product_id])
+
+    def find_item
+      raise "This method should have been overrided"
     end
 end
