@@ -20,6 +20,6 @@ describe "Parts", js: true do
     within("#search_hits") { click_on "Select" }
     page.should have_content(mug.sku)
 
-    within("#product_parts") { click_on "Remove" }
+    within("#item_parts") { click_on "Remove" }
   end
 end

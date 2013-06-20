@@ -11,7 +11,7 @@ module Spree
 
     context "get" do
       it "brings part by product and variant id" do
-        subject.class.get(product.id, variant.id).part.should == variant
+        subject.class.get(product.class, product.id, variant.id).part.should == variant
       end
     end
   end
