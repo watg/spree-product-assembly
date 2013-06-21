@@ -27,7 +27,6 @@ describe Spree::Variant do
     end
 
     it "does not confuse product and variant in the polmorphic assemblies_parts table" do
-
       # We create a product1 and variant with the same id, so that when they get added
       # to to the assemblies_parts table we can detect if assemblies_type is not being
       # useed
