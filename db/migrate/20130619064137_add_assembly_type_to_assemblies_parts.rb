@@ -11,7 +11,9 @@ class AddAssemblyTypeToAssembliesParts < ActiveRecord::Migration
        t.column :assembly_type, :string, :limit =>32 , :null => false, :default => 'Spree::Product'
     end
  
-    add_index table, [:assembly_type, :assembly_id], :name => 'assembly_by_type_and_id'
+    # This should be a primary key of :assembly_type, :assembly_id, :part_id, but sqlite3 does not support
+    # alter table add primary key, hence this is the easiest way to do this
+    add_index table, [:assembly_type, :assembly_id, :part_id, :count], :name => 'assembly_by_type_and_id'
   end
 
 
