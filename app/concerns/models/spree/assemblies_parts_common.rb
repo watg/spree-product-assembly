@@ -9,8 +9,8 @@ module Spree::AssembliesPartsCommon
     attr_accessible :label
   end
 
-  def assemblies_for(products)
-    assemblies.where("spree_assemblies_parts.assembly_id = ?", products)
+  def assemblies_for(*products)
+    assemblies.where("spree_assemblies_parts.assembly_id in (?)", products)
   end
 
   def add_part(variant, count = 1)
