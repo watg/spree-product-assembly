@@ -13,4 +13,8 @@ Spree::Product.class_eval do
 
   attr_accessible :can_be_part, :individual_sale, :kit, :ready_to_wear
 
+  def can_have_optional_parts?
+    true
+  end
+
 end

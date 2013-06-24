@@ -9,4 +9,8 @@ Spree::Variant.class_eval do
 
   attr_accessor :count_part, :optional_part
 
+  def can_have_optional_parts?
+    false
+  end
+
 end

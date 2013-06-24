@@ -11,8 +11,10 @@
 		<tr>
   		<th><%= t("part") %></th>
   		<th><%= t("combination") %></th>
-  		<th><%= t("qty") %></th>
-  		<th><%= t("optional") %></th>
+      <th><%= t("qty") %></th>
+      <% if @item.can_have_optional_parts? %>
+        <th><%= t("optional") %></th>
+      <% end %>
   		<th></th>
 		</tr>
 	</thead>
@@ -31,7 +33,9 @@
           <% end %>
         </td>
         <td><%= text_field_tag "part[count]", 1 %></td>
-        <td><%= check_box_tag( "part[optional]", false ) %></td>
+        <% if @item.can_have_optional_parts? %>
+          <td><%= check_box_tag( "part[optional]", false ) %></td>
+        <% end %>
 		    <td class="actions">
           <%= image_tag "spinner.gif", :style => "display:none", :class => "spinner" %>
 		      <%= link_to(icon('add') + ' ' + t('select'), 

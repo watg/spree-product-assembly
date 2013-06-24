@@ -9,7 +9,7 @@
   <% end %>
 
   <div id="item_parts">
-    <%= render :partial => "parts_table", :locals => {:parts_for_display => @parts_for_display } %>
+    <%= render :partial => "parts_table", :locals => {:parts_for_display => @parts_for_display, :item => @item } %>
   </div>
 
   <%= form_tag('#') do %>

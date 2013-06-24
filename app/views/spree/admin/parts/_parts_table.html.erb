@@ -3,8 +3,10 @@
   	<tr>
   		<th><%= t("part") %></th>
   		<th><%= t("combination") %></th>
-  		<th><%= t("qty") %></th>
-  	  <th><%= t("optional") %></th>
+      <th><%= t("qty") %></th>
+      <% if item.can_have_optional_parts? %>
+        <th><%= t("optional") %></th>
+      <% end %>
   		<th></th>
   	</tr>
   </thead>
@@ -15,7 +17,10 @@
         <% combination = variant_options( part ) %>
         <td><%= !combination.empty? ? combination : ( t :none ) %></td>
         <td><%= text_field_tag :count, part.count_part %></td>
-        <td><%= check_box_tag( 'part_optional', part.optional_part,  part.optional_part ) %></td>
+        <% if item.can_have_optional_parts? %>
+          <td><%= check_box_tag( 'part_optional', part.optional_part,  part.optional_part ) %></td>
+        <% end %>
+
   	    <td class="actions">
           <%= image_tag "spinner.gif", :style => "display:none", :class => "spinner" %>
           <%= link_to(icon('edit') + ' ' + t('update'),
