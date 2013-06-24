@@ -54,7 +54,7 @@
   $("a.add_item_part_link").click(function(){
     part_id_val = $('select option:selected', $(this).parent().parent()).val() ||
                   $('input:first', $(this).parent().parent()).val();
-  params = {   
+    params = {   
                part_count :  $('input:first', $(this).parent().parent()).val(),
                part_optional : $('input:last:checked', $(this).parent().parent()).length > 0 ? 'true' : 'false',
                part_id : part_id_val};
