@@ -32,10 +32,36 @@
 <% end %>
 
 <script type="text/javascript">
+   function show_kit_content_for(kit_id){
+   var selector = "#product_parts li."+kit_id; 
+   $('#product_parts li.variant-kit-parts').hide(); 
+   $(selector).show();
+   return kit_id;
+   }
+
+   function format_price(pence){
+   return pence.slice(0, (pence.length-2)) +'.'+ pence.slice(-2);
+   }
+
+   function update_kit_total_price(e){
+   var $kit = $('#product-price div span');
+   $kit.data('currency',$kit.text().slice(0,1));
+console.log($("#optional-parts ul input:checked"));
+   var kitPrice = $("#optional-parts ul input:checked").map(function(i,e){ return parseInt($(e).data('price')); });
+console.log(kitPrice);
+   kitPrice.push(parseInt($kit.data('price')));
+console.log(kitPrice);
+   var total = $.makeArray(kitPrice).reduce(function(previousValue, currentValue, index, array){ return previousValue + currentValue; },0);
+console.log(total);
+   $kit.text($kit.data('currency')+format_price(total.toString()));
+   return total;
+   }
+
+
+   $("#optional-parts ul input").on('change', update_kit_total_price );
+
    $("#product-variants ul input").on('change', function(e){ 
-     var id = $(this).val(); 
-     var selector = "#product_parts li."+id; 
-     $('#product_parts li.variant-kit-parts').hide(); 
-     $(selector).show()
+     show_kit_content_for($(this).val());
+     $("#optional-parts ul input").trigger('change');
    });
 </script>
