@@ -1,10 +1,10 @@
 <!-- insert_after '#cart-form' -->
 <% if @product.parts.any?(&:in_stock?) %>
 
-  <h6>Contents</h6>
+  <h6 class="product-section-title"><%= Spree.t(:required_parts) %></h6>
 
-<ul id="product_parts" class="product-listing" data-hook>
-      <% @product.kit_parts.each do |part| %>
+  <ul id="product_parts" class="product-listing" data-hook>
+      <% @product.required_parts_for_display.each do |part| %>
       <li>
         <% if part.product.individual_sale? %>
            <%= link_to truncate("#{part.count_part} #{part.label}", :length => 50),  part.product, :class => 'info', :itemprop => "name", :title  => part.label %>

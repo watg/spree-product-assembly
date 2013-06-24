@@ -2,7 +2,7 @@ class Spree::Admin::PartsController < Spree::Admin::BaseController
   before_filter :find_item
 
   def index
-    @parts = @item.parts
+    @parts_for_display = @item.parts_for_display
   end
 
   def remove
@@ -13,7 +13,8 @@ class Spree::Admin::PartsController < Spree::Admin::BaseController
 
   def set_count
     @part = Spree::Variant.find(params[:id])
-    @item.set_part_count(@part, params[:count].to_i)
+    removable = params[:part_removable] == "true" 
+    @item.set_part_count(@part, params[:part_count].to_i, removable )
     render 'spree/admin/parts/update_parts_table'
   end
 
@@ -35,7 +36,8 @@ class Spree::Admin::PartsController < Spree::Admin::BaseController
   def create
     @part = Spree::Variant.find(params[:part_id])
     qty = params[:part_count].to_i
-    @item.add_part(@part, qty) if qty > 0
+    removable = params[:part_removable] == "true" 
+    @item.add_part(@part, qty, removable) if qty > 0
     render 'spree/admin/parts/update_parts_table'
   end
 

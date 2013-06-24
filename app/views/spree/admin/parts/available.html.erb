@@ -5,14 +5,14 @@
     else row.style.display = '';
   }
 </script>
-
 <h4><%= t('available_parts') %></h4>
 <table class="index">
 	<thead>
 		<tr>
-  		<th><%= t("name") %></th>
-  		<th><%= t("options") %></th>
+  		<th><%= t("part") %></th>
+  		<th><%= t("combination") %></th>
   		<th><%= t("qty") %></th>
+  		<th><%= t("optional") %></th>
   		<th></th>
 		</tr>
 	</thead>
@@ -31,6 +31,7 @@
           <% end %>
         </td>
         <td><%= text_field_tag "part[count]", 1 %></td>
+        <td><%= check_box_tag( "part[optional]", false ) %></td>
 		    <td class="actions">
           <%= image_tag "spinner.gif", :style => "display:none", :class => "spinner" %>
 		      <%= link_to(icon('add') + ' ' + t('select'), 
@@ -49,7 +50,9 @@
   $("a.add_item_part_link").click(function(){
     part_id_val = $('select option:selected', $(this).parent().parent()).val() ||
                   $('input:first', $(this).parent().parent()).val();
-    params = { part_count :  $('input:last', $(this).parent().parent()).val(),
+    params = {
+               part_count :  $('input:first', $(this).parent().parent()).val(),
+               part_removable : $('input:last:checked', $(this).parent().parent()).length > 0 ? 'true' : 'false',
                part_id : part_id_val};
     return make_post_request($(this), params);
   });  

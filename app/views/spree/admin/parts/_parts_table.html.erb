@@ -1,33 +1,29 @@
 <table class="index">
   <thead>
   	<tr>
-  	  <th><%= t("sku") %></th>
-  		<th><%= t("name") %></th>
-  		<th><%= t("options") %></th>
+  		<th><%= t("part") %></th>
+  		<th><%= t("combination") %></th>
   		<th><%= t("qty") %></th>
+  	  <th><%= t("optional") %></th>
   		<th></th>
   	</tr>
   </thead>
   <tbody>
-    <% parts.each do |part| %>
+    <% parts_for_display.each do |part| %>
       <tr id="<%= dom_id(part, :sel)%>">
-        <td><%= part.sku %></td>
         <td><%= part.product.name %></td>
         <td><%= variant_options part %></td>
-        <td><%= text_field_tag :count, @item.count_of(part) %></td>
+        <td><%= text_field_tag :count, part.count_part %></td>
+        <td><%= check_box_tag( 'part_removable', part.removable_part,  part.removable_part ) %></td>
   	    <td class="actions">
           <%= image_tag "spinner.gif", :style => "display:none", :class => "spinner" %>
           <%= link_to(icon('edit') + ' ' + t('update'),
                       set_count_admin_item_part_url(@item, part),
                       :class => "set_count_admin_item_part_link") %>
-
-          <%= link_to(icon('delete') + ' ' + t('remove'), 
-                      remove_admin_item_part_url(@item, part),
-                      :class => "remove_admin_item_part_link") %>             
   	    </td>        
       </tr>
     <% end %>
-    <% if parts.empty? %>
+    <% if parts_for_display.empty? %>
      <tr><td colspan="5"><%= t('none') %>.</td></tr>
     <% end %>
   </tbody>

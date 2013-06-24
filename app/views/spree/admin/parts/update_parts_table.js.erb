@@ -1,2 +1,2 @@
-$("#item_parts").html("<%= escape_javascript(render(:partial => "parts_table", :locals => {:parts => @item.parts})) %>");
+$("#item_parts").html("<%= escape_javascript(render(:partial => "parts_table", :locals => {:parts_for_display => @item.parts_for_display})) %>");
 $("#search_hits").hide();
