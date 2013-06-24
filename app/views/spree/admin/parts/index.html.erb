@@ -1,17 +1,29 @@
 <%= render :partial => 'spree/admin/shared/product_sub_menu' %>
 
 <%= render :partial => 'spree/admin/shared/product_tabs', :locals => {:current => "Parts"} %>
-<div id="item_parts">
-  <%= render :partial => "parts_table", :locals => {:parts => @parts} %>
-</div>
+<fieldset>
+  <% if @item.class == Spree::Variant %>
+    <legend align="center"><%= Spree.t(:variant_part) + ": " + @item.options_text %></legend>
+  <% else %>
+    <legend align="center"><%= Spree.t(:part)%></legend>
 
-<%= form_tag('#') do %>
-  <label><%= t('search') %>:</label>
-  <input id="searchtext" size="25">
-<% end %>
+  <% end %>
 
-<br/>
-<div id="search_hits"></div>
+  <div id="item_parts">
+    <%= render :partial => "parts_table", :locals => {:parts => @parts} %>
+  </div>
+
+  <%= form_tag('#') do %>
+    <label><%= t('search') %>:</label>
+    <input id="searchtext" size="25">
+  <% end %>
+
+  <br/>
+  <div id="search_hits"></div>
+
+
+</fieldset>
+
 <%= javascript_tag do %>
 
   function search_for_parts(){
