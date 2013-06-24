@@ -11,5 +11,8 @@ Spree::Product.class_eval do
     not_deleted.individual_saled.available(nil, args.first)
   }
 
+  has_many :optional_parts, :through => :assemblies_parts, :class_name => "Spree::Variant", :conditions => ["spree_assemblies_parts.optional = ?", true], :source => :part
+
+  
   attr_accessible :can_be_part, :individual_sale, :kit, :ready_to_wear
 end

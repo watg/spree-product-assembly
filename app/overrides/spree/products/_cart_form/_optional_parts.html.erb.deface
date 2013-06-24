@@ -1,0 +1,14 @@
+<!-- insert_before "[data-hook='product_price']" -->
+<div id="optional-parts">
+<h6 class="product-section-title"><%= Spree.t(:optional_parts) %></h6>
+<ul>
+<% @product.optional_parts.each do |opart| %>
+<li>
+<%= check_box_tag "products[options][]", opart.id, false, 'data-price' => price_in_pence(opart, current_currency), 'data-currency' => current_currency %>
+<label for="<%= ['products', 'options', opart.id].join('_') %>">
+  <span class="optinal-part-label"><%= opart.label %></span>
+</label>
+</li>
+<% end %>
+</ul>
+</div>
