@@ -20,50 +20,33 @@ module Spree::AssembliesPartsCommon
      Spree::AssembliesPart.where( {:assembly_type => self.class, :assembly_id => self.id}.merge( options ) ).all.map do |ap|
        p = Spree::Variant.find(ap.part_id)
        p.count_part = ap ? ap.count : 0
-       p.removable_part = ap.optional
+       p.optional_part = ap.optional
        p
      end
-  end
-
-  def removable(variant)
-    ap = Spree::AssembliesPart.get(self.class, self.id, variant.id)
-    ap.optional
   end
 
   def assemblies_for(*products)
     assemblies.where("spree_assemblies_parts.assembly_id in (?)", products)
   end
 
-  def add_part(variant, count = 1, removable = false)
+  def add_part(variant, count = 1, optional = false)
     ap = Spree::AssembliesPart.get(self.class, self.id, variant.id)
     if ap
       ap.count += count
-      ap.optional = removable
+      ap.optional = optional
       ap.save
     else
       self.parts << variant
-      set_part_count(variant, count, removable) if count > 1
+      set_part_count(variant, count, optional) if count > 1
     end
   end
 
-  def remove_part(variant)
-    ap = Spree::AssembliesPart.get(self.class, self.id, variant.id)
-    unless ap.nil?
-      ap.count -= 1
-      if ap.count > 0
-        ap.save
-      else
-        ap.destroy
-      end
-    end
-  end
-
-  def set_part_count(variant, count, removable)
+  def set_part_count(variant, count, optional)
     ap = Spree::AssembliesPart.get(self.class, self.id, variant.id)
     unless ap.nil?
       if count > 0
         ap.count = count
-        ap.optional = removable
+        ap.optional = optional
         ap.save
       else
         ap.destroy

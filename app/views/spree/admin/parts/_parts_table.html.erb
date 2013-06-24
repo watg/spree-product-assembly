@@ -12,9 +12,10 @@
     <% parts_for_display.each do |part| %>
       <tr id="<%= dom_id(part, :sel)%>">
         <td><%= part.product.name %></td>
-        <td><%= variant_options part %></td>
+        <% combination = variant_options( part ) %>
+        <td><%= !combination.empty? ? combination : ( t :none ) %></td>
         <td><%= text_field_tag :count, part.count_part %></td>
-        <td><%= check_box_tag( 'part_removable', part.removable_part,  part.removable_part ) %></td>
+        <td><%= check_box_tag( 'part_optional', part.optional_part,  part.optional_part ) %></td>
   	    <td class="actions">
           <%= image_tag "spinner.gif", :style => "display:none", :class => "spinner" %>
           <%= link_to(icon('edit') + ' ' + t('update'),

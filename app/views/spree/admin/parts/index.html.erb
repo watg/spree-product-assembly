@@ -55,15 +55,12 @@
   {
     $("a.set_count_admin_item_part_link").click(function(){
     params = { 
-      part_removable : $('input:last:checked', $(this).parent().parent()).length > 0 ? 'true' : 'false',
+      part_optional : $('input:last:checked', $(this).parent().parent()).length > 0 ? 'true' : 'false',
       part_count :  $("input", $(this).parent().parent()).val() 
     };
       return make_post_request($(this), params);
     });
     
-    $("a.remove_admin_item_part_link").click(function(){
-      return make_post_request($(this), {});
-    });
   }
 
   function make_post_request(link, post_params)

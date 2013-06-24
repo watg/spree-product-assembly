@@ -52,7 +52,7 @@
                   $('input:first', $(this).parent().parent()).val();
     params = {
                part_count :  $('input:first', $(this).parent().parent()).val(),
-               part_removable : $('input:last:checked', $(this).parent().parent()).length > 0 ? 'true' : 'false',
+               part_optional : $('input:last:checked', $(this).parent().parent()).length > 0 ? 'true' : 'false',
                part_id : part_id_val};
     return make_post_request($(this), params);
   });  

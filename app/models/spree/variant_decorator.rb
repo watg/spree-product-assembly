@@ -7,6 +7,6 @@ Spree::Variant.class_eval do
 
   attr_accessible :label
 
-  attr_accessor :count_part, :removable_part
+  attr_accessor :count_part, :optional_part
 
 end
