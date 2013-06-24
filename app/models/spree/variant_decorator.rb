@@ -11,6 +11,9 @@ Spree::Variant.class_eval do
   has_many :assemblies_parts, :as => :assembly
   has_many :parts, :through => :assemblies_parts, :class_name => "Spree::Variant"
 
+  has_many :optional_parts, :through => :assemblies_parts, :class_name => "Spree::Variant", :conditions => ["spree_assemblies_parts.optional = ?", true], :source => :part
+
+  
   attr_accessor :count_part
 
   attr_accessible :label
