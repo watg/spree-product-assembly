@@ -52,12 +52,11 @@
 
 <%= javascript_tag do %>
   $("a.add_item_part_link").click(function(){
-    part_id_val = $('select option:selected', $(this).parent().parent()).val() ||
-                  $('input:first', $(this).parent().parent()).val();
     params = {   
-               part_count :  $('input:first', $(this).parent().parent()).val(),
-               part_optional : $('input:last:checked', $(this).parent().parent()).length > 0 ? 'true' : 'false',
-               part_id : part_id_val};
+               part_id :  $('#part_id', $(this).parent().parent()).val(),
+               part_count :  $('#part_count', $(this).parent().parent()).val(),
+               part_optional : $('#part_optional:checked', $(this).parent().parent()).length > 0 ? 'true' : 'false',
+             };
     return make_post_request($(this), params);
   });  
 <% end %>  
