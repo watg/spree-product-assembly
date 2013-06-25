@@ -1,4 +1,4 @@
-class AddKitAndReadyToWearFieldsToProducts < ActiveRecord::Migration
+class AddProductTypeToProducts < ActiveRecord::Migration
   def self.up
     table = if table_exists?(:products)
       'products'
