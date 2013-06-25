@@ -70,14 +70,8 @@ describe Spree::Variant do
       @variant1.count_of(@part2).should == 8 
     end
 
- 
-    it 'can remove a part count' do
-      @variant1.remove_part(@part2)
-      @variant1.count_of(@part2).should == 3 
-    end
-
     it 'changing part qty changes count on_hand' do
-      @variant1.set_part_count(@part2, 2)
+      @variant1.set_part_count(@part2, 2, false)
       @variant1.count_of(@part2).should == 2
     end
 

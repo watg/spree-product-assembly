@@ -17,7 +17,7 @@ class Spree::Admin::PartsController < Spree::Admin::BaseController
       @available_products = []
     else
       query = "%#{params[:q]}%"
-      @available_products = Spree::Product.not_deleted.available.joins(:master).where("(spree_products.name #{LIKE} ? OR spree_variants.sku #{LIKE} ?) AND can_be_part = ?", query, query, true).limit(30)
+      @available_products = Spree::Product.not_deleted.available.joins(:master).where("(spree_products.name #{LIKE} ? OR spree_variants.sku #{LIKE} ?) AND product_type = ?", query, query, 'part').limit(30)
       
       @available_products.uniq!
     end

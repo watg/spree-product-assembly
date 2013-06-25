@@ -17,7 +17,8 @@ module Spree::AssembliesPartsCommon
   end
 
   def parts_for_display( options = {} )
-     Spree::AssembliesPart.where( {:assembly_type => self.class, :assembly_id => self.id}.merge( options ) ).all.map do |ap|
+     #Spree::AssembliesPart.where( {:assembly_type => self.class, :assembly_id => self.id}.merge( options ) ).all.map do |ap|
+     self.assemblies_parts.where( options ).all.map do |ap|
        p = Spree::Variant.find(ap.part_id)
        p.count_part = ap ? ap.count : 0
        p.optional_part = ap.optional
@@ -30,7 +31,7 @@ module Spree::AssembliesPartsCommon
   end
 
   def add_part(variant, count = 1, optional = false)
-    ap = Spree::AssembliesPart.get(self.class, self.id, variant.id)
+    ap = self.assemblies_parts.find_by_part_id( variant.id )
     if ap
       ap.count += count
       ap.optional = optional
@@ -42,14 +43,14 @@ module Spree::AssembliesPartsCommon
   end
 
   def set_part_count(variant, count, optional)
-    ap = Spree::AssembliesPart.get(self.class, self.id, variant.id)
+    ap = self.assemblies_parts.find_by_part_id( variant.id )
     unless ap.nil?
       if count > 0
         ap.count = count
         ap.optional = optional
         ap.save
       else
-        ap.destroy
+        ap.delete
       end
     end
   end
@@ -68,7 +69,7 @@ module Spree::AssembliesPartsCommon
   end
 
   def count_of(variant)
-    ap = Spree::AssembliesPart.get(self.class, self.id, variant.id)
+    ap = self.assemblies_parts.find_by_part_id( variant.id )
     ap ? ap.count : 0
   end
 

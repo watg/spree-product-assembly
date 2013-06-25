@@ -3,13 +3,10 @@ require 'spec_helper'
 describe "Parts", js: true do
   stub_authorization!
 
-  let(:tshirt) { create(:product, :name => "T-Shit") }
-  let(:mug) { create(:product, :name => "Mug") }
+  let(:tshirt) { create(:product, :name => "T-Shit", :product_type => 'kit') }
+  let(:mug) { create(:product, :name => "Mug", :product_type => 'part') }
 
   before do
-    visit spree.admin_product_path(mug)
-    check "product_can_be_part"
-    click_on "Update"
   end
 
   it "add and remove parts" do
