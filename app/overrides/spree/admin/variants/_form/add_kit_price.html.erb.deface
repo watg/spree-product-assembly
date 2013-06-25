@@ -1,0 +1,6 @@
+<!-- insert_top "[data-hook='price']" -->
+<%= f.field_container :kit_price do %>
+  <%= f.label :kit_price, Spree.t(:kit_price)  %>
+  <%= f.text_field :kit_price, :value => number_to_currency(@variant.kit_price, :unit => '') %>
+  <%= f.error_message_on :kit_price %>
+<% end %>
