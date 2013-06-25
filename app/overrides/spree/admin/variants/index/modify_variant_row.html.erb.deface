@@ -1,3 +1,5 @@
+<!-- replace '[data-hook="variants_row"]' --> 
+<!-- original '947c0680e58b98f03306aa7f84c176e92dcdf416' -->
 <tr id="<%= spree_dom_id variant %>" <%= 'style="color:red;"' if variant.deleted? %> data-hook="variants_row" class="<%= cycle('odd', 'even')%>">
   <td class="no-border">
     <span class="handle"></span>

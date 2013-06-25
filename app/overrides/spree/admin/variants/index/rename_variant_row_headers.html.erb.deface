@@ -1,0 +1,10 @@
+<!-- replace 'thead[data-hook="variants_header"]' --> 
+<!-- original 'd82dba8519dd7373c02f54ff295806fa48f39836' -->
+<thead data-hook="variants_header">
+  <tr>
+    <th colspan="2"><%= Spree.t(:combination) %></th>
+    <th><%= Spree.t(:price) %></th>
+    <th><%= Spree.t(:parts) %></th>
+    <th class="actions"></th>
+  </tr>
+</thead>
