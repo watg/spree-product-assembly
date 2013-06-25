@@ -25,9 +25,28 @@ Spree::Variant.class_eval do
   
   delegate_belongs_to :variant_kit_price, :kit_price, :kit_price=
 
+  has_many :prices,
+  class_name: 'Spree::Price',
+  conditions: {is_kit: false},
+  dependent: :destroy
+  
+  has_many :kit_prices,
+  class_name: 'Spree::Price',
+  conditions: {is_kit: true},
+  dependent: :destroy
+  
   after_save :save_kit_price
-    
-    
+
+
+  def price_in(currency)
+    prices.select{ |price| price.currency == currency }.first || Spree::Price.new(variant_id: self.id, currency: currency, is_kit: false)
+  end
+
+  def kit_price_in(currency)
+    kit_prices.select{ |price| price.currency == currency }.first || Spree::Price.new(variant_id: self.id, currency: currency, is_kit: true)
+  end
+  
+  
   private
   def save_kit_price
     if variant_kit_price && (variant_kit_price.changed? || variant_kit_price.new_record?)
