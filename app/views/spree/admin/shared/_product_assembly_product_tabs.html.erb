@@ -1,3 +1,5 @@
 <li<%= ' class="active"' if current == "Parts" %>>
+<% if @product.product_type == 'kit' %>
   <%= link_to_with_icon 'icon-sitemap', t("parts"), admin_product_parts_url(@product) %>
+<% end %>
 </li>

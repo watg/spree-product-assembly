@@ -11,10 +11,16 @@ Spree::Product.class_eval do
     not_deleted.individual_saled.available(nil, args.first)
   }
 
-  attr_accessible :can_be_part, :individual_sale, :kit, :ready_to_wear
+  attr_accessible :can_be_part, :individual_sale, :product_type
+
+  PRODUCT_TYPES = [
+    :ready_2_wear, :kit, :part
+
+  ]
 
   def can_have_optional_parts?
     true
   end
+
 
 end

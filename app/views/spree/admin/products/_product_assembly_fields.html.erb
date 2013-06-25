@@ -1,17 +1,9 @@
+<% if @product.product_type == 'part' %>
 <div class="twelve columns alpha omega">
   <fieldset>
-    <legend align="center"><%= Spree.t(:product_type) %></legend>
+    <legend align="center"><%= Spree.t(:part_options) %></legend>
 
     <div class="six columns alpha ">
-      <%= f.label :kit, t("kit")%>
-      <%= f.check_box(:kit) %>
-      <%= f.label :ready_to_wear, t("ready_to_wear")%>
-      <%= f.check_box(:ready_to_wear) %>
-    </div>
-
-    <div class="six columns omega ">
-      <%= f.label :can_be_part, t("can_be_part")%>
-      <%= f.check_box(:can_be_part) %>
       <%= f.label :individual_sale, t("individual_sale")%>
       <%= f.check_box(:individual_sale) %>
     </div>
@@ -27,3 +19,4 @@
     <% end %>
   </fieldset>
 </div>
+<% end %>

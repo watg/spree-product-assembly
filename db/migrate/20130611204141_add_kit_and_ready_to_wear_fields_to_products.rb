@@ -7,8 +7,7 @@ class AddKitAndReadyToWearFieldsToProducts < ActiveRecord::Migration
     end 
     
     change_table(table) do |t|
-      t.column :kit, :boolean, :default => false, :null => false
-      t.column :ready_to_wear, :boolean, :default => false, :null => false
+      t.column :product_type, :string, :limit =>32 , :null => false, :default => Spree::Product::PRODUCT_TYPES.first 
     end  
   end
 
@@ -20,8 +19,7 @@ class AddKitAndReadyToWearFieldsToProducts < ActiveRecord::Migration
     end 
     
     change_table(table) do |t|
-      t.remove :kit
-      t.remove :ready_to_wear
+      t.remove :product_type
     end
   end
 end

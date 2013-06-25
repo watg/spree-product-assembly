@@ -6,24 +6,28 @@
   </td>
   <td><%= variant.options_text %></td>
   <td class="align-center"><%= variant.display_price.to_html %></td>
-  <td>
-  <table>
-    <% variant.parts.each do |part| %>
-      <tr>
-        <td><%= part.name %></td>
-        <td><%= part.options_text %></td>
-        <td><%= variant.count_of(part) %></td>
-      </tr>
-    <% end %>
-  </table>
-  </td>
+  <% if @product.product_type == 'kit' %>
+    <td>
+      <table>
+        <% variant.parts.each do |part| %>
+          <tr>
+            <td><%= part.name %></td>
+            <td><%= part.options_text %></td>
+            <td><%= variant.count_of(part) %></td>
+          </tr>
+        <% end %>
+      </table>
+    </td>
+  <% end %>
 
   <td class="actions">
     <%= link_to_edit(variant, :no_text => true) unless variant.deleted? %>
     &nbsp;
     <%= link_to_delete(variant, :no_text => true) unless variant.deleted? %>
-    &nbsp;
-    <%= link_to_with_icon('icon-sitemap', t("parts"), admin_product_variant_parts_url(@product,variant), :no_text => true) unless variant.deleted? %>
+    <% if @product.product_type == 'kit' %>
+      &nbsp;
+      <%= link_to_with_icon('icon-sitemap', t("parts"), admin_product_variant_parts_url(@product,variant), :no_text => true) unless variant.deleted? %>
+    <% end %>
   </td>
 </tr>
 
