@@ -29,7 +29,7 @@ describe Spree::Admin::VariantPartsController do
 
   context "available" do
     it "list all available parts" do
-      can_not_be_part = create(:product, :product_type => 'ready_2_wear') 
+      can_not_be_part = create(:product, :product_type => 'ready_to_wear') 
       spree_get :available, {:q=>"%", :variant_id => @variant.id } 
       response.should be_success 
       assigns[:available_products].map(&:id).should == [@product_can_be_part.id, @new_product_can_be_part.id]

@@ -1,7 +1,8 @@
 <!-- insert_after '[data-hook="new_product_attrs"]' --> 
 <div class="alpha four columns">
   <%= f.field_container :type do %>
-    <%= f.label :type, Spree.t(:product_type) %><br />
-    <%= f.select :product_type, Spree::Product::PRODUCT_TYPES, {}, {:class => 'select2 fullwidth'} %>
+    <%= f.label :product_type, Spree.t(:product_type) %><br />
+    <%= f.select :product_type, Spree::Product::PRODUCT_TYPES.collect {|p| [ Spree.t(p),p ] }, {}, {:class => 'select2 fullwidth'} %>
   <% end %>
 </div>
+

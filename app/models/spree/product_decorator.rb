@@ -14,7 +14,7 @@ Spree::Product.class_eval do
   attr_accessible :can_be_part, :individual_sale, :product_type
 
   PRODUCT_TYPES = [
-    :ready_2_wear, :kit, :part
+    :ready_to_wear, :kit, :part
 
   ]
 
