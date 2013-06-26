@@ -4,9 +4,13 @@
   <tr>
     <th colspan="2"><%= Spree.t(:combination) %></th>
     <th><%= Spree.t(:price) %></th>
+     <% if @product.isa_part? %>
+      <th><%= Spree.t(:kit_price) %></th>
+    <% end %>
      <% if @product.product_type == 'kit' %>
       <th><%= Spree.t(:parts) %></th>
     <% end %>
+
     <th class="actions"></th>
   </tr>
 </thead>

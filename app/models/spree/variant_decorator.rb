@@ -23,7 +23,7 @@ Spree::Variant.class_eval do
   conditions: proc { { currency: Spree::Config[:currency], is_kit: true } },
   dependent: :destroy
   
-  delegate_belongs_to :variant_kit_price, :kit_price, :kit_price=
+  delegate_belongs_to :variant_kit_price, :kit_price, :kit_price=, :display_kit_price
 
   has_many :prices,
   class_name: 'Spree::Price',
