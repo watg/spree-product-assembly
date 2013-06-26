@@ -15,3 +15,7 @@ group :test do
   gem 'capybara', '~> 2.1.0'
   gem 'selenium-webdriver', '~> 2.32.0'
 end
+
+group :development do
+  gem 'guard-rspec'
+end

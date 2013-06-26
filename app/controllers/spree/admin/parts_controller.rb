@@ -7,7 +7,7 @@ class Spree::Admin::PartsController < Spree::Admin::BaseController
 
   def set_count
     @part = Spree::Variant.find(params[:id])
-    optional = params[:part_optional] == "true" 
+    optional = params[:part_optional] == true 
     @item.set_part_count(@part, params[:part_count].to_i, optional )
     render 'spree/admin/parts/update_parts_table'
   end
@@ -30,7 +30,7 @@ class Spree::Admin::PartsController < Spree::Admin::BaseController
   def create
     @part = Spree::Variant.find(params[:part_id])
     qty = params[:part_count].to_i
-    optional = params[:part_optional] == "true" 
+    optional = params[:part_optional] == true 
     @item.add_part(@part, qty, optional) if qty > 0
     render 'spree/admin/parts/update_parts_table'
   end

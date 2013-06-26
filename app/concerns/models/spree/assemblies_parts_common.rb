@@ -37,8 +37,7 @@ module Spree::AssembliesPartsCommon
       ap.optional = optional
       ap.save
     else
-      self.parts << variant
-      set_part_count(variant, count, optional) if count > 1
+      self.assemblies_parts.create( :part_id => variant.id, :optional => optional, :count => count )
     end
   end
 
