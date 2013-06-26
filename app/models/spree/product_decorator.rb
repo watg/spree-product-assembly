@@ -22,5 +22,4 @@ Spree::Product.class_eval do
     true
   end
 
-
 end
