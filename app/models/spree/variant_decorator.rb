@@ -23,7 +23,7 @@ Spree::Variant.class_eval do
   conditions: proc { { currency: Spree::Config[:currency], is_kit: true } },
   dependent: :destroy
   
-  delegate_belongs_to :variant_kit_price, :kit_price, :kit_price=
+  delegate_belongs_to :variant_kit_price, :kit_price, :kit_price=, :display_kit_price
 
   has_many :prices,
   class_name: 'Spree::Price',
@@ -37,6 +37,7 @@ Spree::Variant.class_eval do
   
   after_save :save_kit_price
 
+  delegate_belongs_to :product, :product_type, :isa_part?
 
   def price_in(currency)
     prices.select{ |price| price.currency == currency }.first || Spree::Price.new(variant_id: self.id, currency: currency, is_kit: false)
@@ -49,7 +50,7 @@ Spree::Variant.class_eval do
   
   private
   def save_kit_price
-    if variant_kit_price && (variant_kit_price.changed? || variant_kit_price.new_record?)
+    if variant_kit_price
       variant_kit_price.is_kit= true
       variant_kit_price.save
     end

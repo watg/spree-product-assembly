@@ -1,0 +1,8 @@
+<!-- insert_top "[data-hook='admin_product_form_right']" -->
+<% if @product.isa_part? %>
+<%= f.field_container :kit_price do %>
+  <%= f.label :kit_price, Spree.t(:kit_price)  %>
+  <%= f.text_field :kit_price, :value => number_to_currency(@product.kit_price, :unit => '') %>
+  <%= f.error_message_on :kit_price %>
+<% end %>
+<% end %>
