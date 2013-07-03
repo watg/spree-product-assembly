@@ -68,44 +68,86 @@ describe Spree::Admin::VariantPartsController do
   context "add a part to the kit" do
 
     it "should allow you to do this with the optional flag disabled" do
-        spree_post :create, { :format => 'js', :variant_id => @variant.id, :part_count => 2, :part_id => @new_variant_part.id, :part_optional => false } 
+        spree_post :create, { :format => 'js', :variant_id => @variant.id, :part_count => 2, :part_id => @new_variant_part.id, :part_optional => "false" } 
         spree_get :index, {:variant_id => @variant.id}
         assigns[:parts_for_display].map { |p| p.count_part }.should == [1,2]
         assigns[:parts_for_display].map { |p| p.optional_part }.should == [false,false]
     end
 
     it "should allow you to do this with the optional flag enabled" do
-        spree_post :create, { :format => 'js', :variant_id => @variant.id, :part_count => 2, :part_id => @new_variant_part.id, :part_optional => true } 
+        spree_post :create, { :format => 'js', :variant_id => @variant.id, :part_count => 2, :part_id => @new_variant_part.id, :part_optional => "true" } 
         spree_get :index, {:variant_id => @variant.id}
         assigns[:parts_for_display].map { |p| p.count_part }.should == [1,2]
         assigns[:parts_for_display].map { |p| p.optional_part }.should == [false,true]
     end
 
     it "should update an identical part optional flag" do
-      spree_post :create, { :format => 'js', :variant_id => @variant.id, :part_count => 9, :part_id => @variant_part.id, :part_optional => false } 
+      spree_post :create, { :format => 'js', :variant_id => @variant.id, :part_count => 9, :part_id => @variant_part.id, :part_optional => "false" } 
       spree_get :index, {:variant_id => @variant.id}
       assigns[:parts_for_display].map { |p| p.count_part }.should == [10]
       assigns[:parts_for_display].map { |p| p.optional_part }.should == [false]
     end
 
     it "should update an identical part count" do
-      spree_post :create, { :format => 'js', :variant_id => @variant.id, :part_count => 9, :part_id => @variant_part.id, :part_optional => true } 
+      spree_post :create, { :format => 'js', :variant_id => @variant.id, :part_count => 9, :part_id => @variant_part.id, :part_optional => "true" } 
       spree_get :index, {:variant_id => @variant.id}
       assigns[:parts_for_display].map { |p| p.count_part }.should == [10]
       assigns[:parts_for_display].map { |p| p.optional_part }.should == [true]
     end
   end
 
-
   context "update a part" do
+
     it "should set a new count" do
       spree_post :set_count, { :format => 'js', :variant_id => @variant.id, :id => @variant_part.id, :part_count => 99 } 
       spree_get :index, {:variant_id => @variant.id}
       assigns[:parts_for_display].map { |p| p.count_part }.should == [99]
+    end
+
+    it "should be able to set the optional checkbox" do
+      spree_get :index, {:variant_id => @variant.id}
       assigns[:parts_for_display].map { |p| p.optional_part }.should == [false]
+      spree_post :set_count, { :format => 'js', :variant_id => @variant.id, :id => @variant_part.id, :part_optional => "true", :part_count => 99 } 
+      spree_get :index, {:variant_id => @variant.id}
+      assigns[:parts_for_display].map { |p| p.optional_part }.should == [true]
+    end
+
+    it "should remove the part if count is set to zero" do
+      spree_get :index, {:variant_id => @variant.id}
+      assigns[:parts_for_display].map { |p| p.count_part }.should == [1]
+      spree_post :set_count, { :format => 'js', :variant_id => @variant.id, :id => @variant_part.id, :part_optional => "true", :part_count => 0 } 
+      spree_get :index, {:variant_id => @variant.id}
+      assigns[:parts_for_display].should == []
     end
 
   end
+
+  context "availability of parts" do
+
+    it "should set a new count" do
+      spree_post :set_count, { :format => 'js', :variant_id => @variant.id, :id => @variant_part.id, :part_count => 99 } 
+      spree_get :index, {:variant_id => @variant.id}
+      assigns[:parts_for_display].map { |p| p.count_part }.should == [99]
+    end
+
+    it "should be able to set the optional checkbox" do
+      spree_get :index, {:variant_id => @variant.id}
+      assigns[:parts_for_display].map { |p| p.optional_part }.should == [false]
+      spree_post :set_count, { :format => 'js', :variant_id => @variant.id, :id => @variant_part.id, :part_optional => "true", :part_count => 99 } 
+      spree_get :index, {:variant_id => @variant.id}
+      assigns[:parts_for_display].map { |p| p.optional_part }.should == [true]
+    end
+
+    it "should remove the part if count is set to zero" do
+      spree_get :index, {:variant_id => @variant.id}
+      assigns[:parts_for_display].map { |p| p.count_part }.should == [1]
+      spree_post :set_count, { :format => 'js', :variant_id => @variant.id, :id => @variant_part.id, :part_optional => "true", :part_count => 0 } 
+      spree_get :index, {:variant_id => @variant.id}
+      assigns[:parts_for_display].should == []
+    end
+
+  end
+
 
 
 end
