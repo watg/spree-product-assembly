@@ -14,16 +14,23 @@ Spree::Product.class_eval do
   delegate_belongs_to :master, :kit_price
   attr_accessible :can_be_part, :individual_sale, :product_type, :kit_price
 
-  PRODUCT_TYPES = [ :ready_to_wear, :kit, :part ]
+  TYPES = [ :kit, :product ]
 
   def isa_part?
-    product_type.to_sym == :part
+    product_type.to_sym == :product && can_be_part == true 
+  end
+
+  def isa_product?
+    product_type.to_sym == :product
+  end
+
+  def isa_kit?
+    product_type.to_sym == :kit
   end
 
   def can_have_optional_parts?
     true
   end
-
 
   private
   # Builds variants from a hash of option types & values
@@ -33,11 +40,16 @@ Spree::Product.class_eval do
     values = values.inject(values.shift) { |memo, value| memo.product(value).map(&:flatten) }
 
     values.each do |ids|
-      attrs = { option_value_ids: ids, price: master.price }
+      attrs = { option_value_ids: ids, price: master.price, label: master.name }
       attrs.merge!(kit_price: master.kit_price) if master.kit_price
       variant = variants.create(attrs, without_protection: true)
     end
     save
   end
+
+  def set_master_variant_defaults
+    master.label = self.name
+    master.is_master = true
+  end  
   
 end

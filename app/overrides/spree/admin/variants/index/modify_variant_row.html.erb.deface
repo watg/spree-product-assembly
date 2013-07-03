@@ -9,7 +9,7 @@
   <% if @product.isa_part? %>
   <td class="align-center"><%= variant.display_kit_price.to_html%> </td>
   <% end %>
-  <% if @product.product_type == 'kit' %>
+  <% if @product.isa_kit? %>
     <td>
       <table>
         <% variant.parts.each do |part| %>
@@ -27,7 +27,7 @@
     <%= link_to_edit(variant, :no_text => true) unless variant.deleted? %>
     &nbsp;
     <%= link_to_delete(variant, :no_text => true) unless variant.deleted? %>
-    <% if @product.product_type == 'kit' %>
+    <% if @product.isa_kit? %>
       &nbsp;
       <%= link_to_with_icon('icon-sitemap', t("parts"), admin_product_variant_parts_url(@product,variant), :no_text => true) unless variant.deleted? %>
     <% end %>

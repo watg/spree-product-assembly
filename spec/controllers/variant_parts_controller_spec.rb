@@ -8,13 +8,13 @@ describe Spree::Admin::VariantPartsController do
     @product = create(:product, :product_type => 'kit') 
     @variant = create(:variant, :product => @product)
 
-    @product_can_be_part = create(:product, :product_type => 'part', :available_on => Time.now - 15.minutes) 
+    @product_can_be_part = create(:product, :product_type => 'product', :can_be_part => true, :available_on => Time.now - 15.minutes) 
     @variant_part = create(:variant, :product => @product_can_be_part)
 
     @product.parts.push @variant_part
     @variant.parts.push @variant_part
 
-    @new_product_can_be_part = create(:product, :product_type => 'part', :available_on => Time.now - 15.minutes) 
+    @new_product_can_be_part = create(:product, :product_type => 'product', :can_be_part => true, :available_on => Time.now - 15.minutes) 
     @new_variant_part = create(:variant, :product => @new_product_can_be_part)
 
   end

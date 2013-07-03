@@ -2,10 +2,10 @@
 <!-- original 'e867417b7bad302c2b1a96bc4183b3fbf2d522ae' -->
 <div class="alpha three columns">
   <div class="field">
-    <%= f.label :product_type_cont, Spree.t(:product_type) %>
+    <%= f.label :product_type_cont, Spree.t(:type) %>
     <!-- '_select2' should be 'select', although it breaks other stuff, we need to investigate -->
     <!-- backend/app/views/spree/admin/products/new.js.erb --> 
-    <%= f.select :product_type_cont, Spree::Product::PRODUCT_TYPES.collect {|p| [ Spree.t(p),p ] }, {:include_blank => true}, {:class => '_select2 fullwidth'} %>
+    <%= f.select :product_type_cont, Spree::Product::TYPES.collect {|p| [ Spree.t(p),p ] }, {:include_blank => true}, {:class => '_select2 fullwidth'} %>
   </div>
 </div>
 

@@ -5,7 +5,6 @@ Spree::ProductsController.class_eval do
     end
     def price_in_pence(obj,currency)
       method = (obj.is_master ? :price_in : :kit_price_in)
-      Rails.logger.info "#{obj.name} --  #{method} -- #{obj.send(method, currency).price}"
       (obj.send(method, currency).price * 100 * item_quantity(obj) ).to_i
     end
   end

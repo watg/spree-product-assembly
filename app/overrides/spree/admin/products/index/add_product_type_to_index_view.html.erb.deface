@@ -12,7 +12,7 @@
     </colgroup>
     <thead>
       <tr data-hook="admin_products_index_headers">
-        <th><%= sort_link @search, :product_type, Spree.t(:product_type), {}, {:title => 'admin_products_listing_product_type_title'} %></th>
+        <th><%= sort_link @search, :product_type, Spree.t(:type), {}, {:title => 'admin_products_listing_product_type_title'} %></th>
         <th><%= Spree.t(:sku) %></th>
         <th colspan="2"><%= sort_link @search,:name, Spree.t(:name), { :default_order => "desc" }, {:title => 'admin_products_listing_name_title'} %></th>
         <th><%= sort_link @search,:master_default_price_amount, Spree.t(:master_price), {}, {:title => 'admin_products_listing_price_title'} %></th>

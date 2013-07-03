@@ -1,11 +1,15 @@
-<% if @product.product_type == 'part' %>
+<% if @product.isa_product? %>
 <div class="twelve columns alpha omega">
   <fieldset>
-    <legend align="center"><%= Spree.t(:part_options) %></legend>
+    <legend align="center"><%= Spree.t(:options) %></legend>
 
     <div class="six columns alpha ">
       <%= f.label :individual_sale, t("individual_sale")%>
       <%= f.check_box(:individual_sale) %>
+    </div>
+    <div class="six columns omega ">
+      <%= f.label :can_be_part, t("can_be_part")%>
+      <%= f.check_box(:can_be_part) %>
     </div>
 
     <% if @product.assembly? %>

@@ -5,7 +5,7 @@
 <ul>
 <% @product.optional_parts_for_display.each do |opart| %>
 <li>
-<%= check_box_tag "products[options][]", opart.id, false, 'data-price' => price_in_pence(opart, current_currency), 'data-currency' => current_currency, 'data-quantity' => item_quantity(opart)%>
+<%= check_box_tag "products[options][]", opart.id, false, 'data-price' => price_in_pence(opart, current_currency), 'data-currency' => current_currency, id: "products_options_#{opart.id}", class: "kit-option" %>
 <label for="<%= ['products', 'options', opart.id].join('_') %>">
   <span class="optinal-part-label"><%= "#{item_quantity(opart)} #{opart.label}" %></span>
 </label>

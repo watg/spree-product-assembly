@@ -7,7 +7,7 @@ class AddProductTypeToProducts < ActiveRecord::Migration
     end 
     
     change_table(table) do |t|
-      t.column :product_type, :string, :limit =>32 , :null => false, :default => Spree::Product::PRODUCT_TYPES.first 
+      t.column :product_type, :string, :limit =>32 , :null => false, :default => Spree::Product::TYPES.first 
     end  
   end
 

@@ -2,12 +2,10 @@
 <!-- original 'ae8e69f73a24e31b871c29af9928cb0d045d6709' -->
 <div class="alpha four columns">
   <%= f.field_container :type do %>
-    <%= f.label :product_type, Spree.t(:product_type) %><br />
-    <%= f.select :product_type, Spree::Product::PRODUCT_TYPES.collect {|p| [ Spree.t(p),p ] }, {:include_blank => false}, {:class => 'select2 fullwidth'} %>
+    <%= f.label :product_type, Spree.t(:type) %><br />
+    <%= f.select :product_type, Spree::Product::TYPES.collect {|p| [ Spree.t(p),p ] }, {:include_blank => false}, {:class => 'select2 fullwidth'} %>
   <% end %>
 </div>
-
-
 
 <div class="four columns" style="display:none;">
   <%= f.field_container :kit_price do %>

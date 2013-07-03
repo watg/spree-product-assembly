@@ -17,7 +17,6 @@ module Spree::AssembliesPartsCommon
   end
 
   def parts_for_display( options = {} )
-     #Spree::AssembliesPart.where( {:assembly_type => self.class, :assembly_id => self.id}.merge( options ) ).all.map do |ap|
      self.assemblies_parts.where( options ).all.map do |ap|
        p = Spree::Variant.find(ap.part_id)
        p.count_part = ap ? ap.count : 0
