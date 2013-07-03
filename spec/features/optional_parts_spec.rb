@@ -26,6 +26,7 @@ describe "Optional Parts" do
     check "part_optional"
     click_link "Select"
 
+    expect(current_path).to eql(spree.admin_product_parts_path(tala_tank))
     find_field('count').value.to_i.should eql(2)
     find("#part_optional").should be_checked
   end
