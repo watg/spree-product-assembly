@@ -44,7 +44,7 @@
    }
 
    function update_kit_total_price(e){
-   var $kit = $('#product-price div span');
+   var $kit = $('#product-price span');
    $kit.data('currency',$kit.text().slice(0,1));
 
    var kitPrice = $("#optional-parts ul input:checked").map(function(i,e){ return parseInt($(e).data('price')); });
