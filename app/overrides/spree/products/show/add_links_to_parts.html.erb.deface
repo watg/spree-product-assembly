@@ -40,28 +40,44 @@
    }
 
    function format_price(pence){
-   return pence.slice(0, (pence.length-2)) +'.'+ pence.slice(-2);
+   return $("#product-price .price").data('currency')+pence.slice(0, (pence.length-2)) +'.'+ pence.slice(-2);
    }
 
-   function update_kit_total_price(e){
-   var $kit = $('#product-price div span');
-   $kit.data('currency',$kit.text().slice(0,1));
+   function price_in_pence(a){
+   return parseInt(a.slice(1,a.length).replace('.',''));
+   }
 
-   var kitPrice = $("#optional-parts ul input:checked").map(function(i,e){ return parseInt($(e).data('price')); });
+   function sum(list){
+   return $.makeArray(list).reduce(function(previousValue, currentValue, index, array){ return previousValue + currentValue; },0);
+   }
 
-   kitPrice.push(parseInt($kit.data('price')));
+   function update_kit_total_price(variant_price){
+   var $kit = $("#product-price .price");
+   var kitPrice, total;
 
-   var total = $.makeArray(kitPrice).reduce(function(previousValue, currentValue, index, array){ return previousValue + currentValue; },0);
+   $kit.data('currency',variant_price.slice(0,1));
+   kitPrice = $("#optional-parts ul input:checked").map(function(i,e){ return parseInt($(e).data('price')); });
+   kitPrice.push( price_in_pence(variant_price) );
 
-   $kit.text($kit.data('currency')+format_price(total.toString()));
+   total = sum(kitPrice);
+   $kit.text(format_price(total.toString()));
    return total;
    }
 
+   $('#product-price .price').on('selected-variant-changed variant-changed', function(evt, d){
+     if(d.variant_id != null && d.variant_id != "undefined"){ show_kit_content_for(d.variant_id); }
+     update_kit_total_price(d.price[0]);
+   });
 
-   $("#optional-parts ul input").on('change', update_kit_total_price );
+   $("#optional-parts ul input").on('change', function(e){
+   var variant_price = "$234.33";
+   variant_price = format_price($("#product-price .price").data('price').toString());
+   update_kit_total_price(variant_price);
+   });
 
    $("#product-variants ul input").on('change', function(e){ 
      show_kit_content_for($(this).val());
      $("#optional-parts ul input").trigger('change');
    });
+
 </script>
