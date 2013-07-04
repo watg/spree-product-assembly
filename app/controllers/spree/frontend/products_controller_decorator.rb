@@ -7,6 +7,10 @@ Spree::ProductsController.class_eval do
       method = (obj.is_master ? :price_in : :kit_price_in)
       (obj.send(method, currency).price * 100 * item_quantity(obj) ).to_i
     end
+
+    def currency_symbol(string)
+      string[0]
+    end
   end
 
 end

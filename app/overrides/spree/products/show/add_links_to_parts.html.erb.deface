@@ -40,7 +40,7 @@
    }
 
    function format_price(pence){
-   var currencySymbol = $("#product-price .price").text().slice(0,1);
+   var currencySymbol = $("#product-price .price").data('currency');
    return currencySymbol + pence.slice(0, (pence.length-2)) +'.'+ pence.slice(-2);
    }
 
