@@ -1,3 +1,3 @@
-<!-- replace "#product-price span"  -->
+<!-- replace "#product-price .price"  -->
 <span class="price selling" itemprop="price" data-price="<%= price_in_pence(@product,current_currency)%>" data-currency="<%= current_currency %>"><%= display_price(@product) %></span>
 
