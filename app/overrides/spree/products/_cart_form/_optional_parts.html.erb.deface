@@ -1,4 +1,4 @@
-<!-- insert_before "[data-hook='product_price']" -->
+<!-- insert_bottom "[data-hook='inside_product_cart_form']" -->
 <% unless @product.optional_parts_for_display.blank? %>
 <div id="optional-parts">
 <h6 class="product-section-title"><%= Spree.t(:optional_parts) %></h6>
