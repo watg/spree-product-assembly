@@ -63,4 +63,14 @@ Spree::LineItem.class_eval do
     end
     self.item_uuid = self.class.build_item_uuid(self.variant, options_with_quantity)
   end
+
+  #
+  # based on product type
+  def update_inventory
+    if self.product.isa_kit?
+      Spree::OrderInventoryAssembly.new(self).verify(target_shipment)
+    else
+      Spree::OrderInventory.new(self.order).verify(self, target_shipment)
+    end
+  end
 end
