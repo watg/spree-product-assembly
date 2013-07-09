@@ -55,6 +55,26 @@ Spree::LineItem.class_eval do
     list_amount = self.line_item_options.map {|e| e.price * e.quantity}
     list_amount.inject(0){|s,a| s += a; s}
   end
+
+  def sufficient_stock?
+    if self.product.isa_kit?
+      kit_sufficient_stock?
+    else
+      Spree::Stock::Quantifier.new(variant_id).can_supply? quantity
+    end
+  end
+
+  def required_and_optional_parts
+    required_part_list = self.variant.required_parts_for_display
+    optional_part_list = self.line_item_options.map do |o|
+      v = Spree::Variant.find(o.variant_id)
+      v.count_part = o.quantity
+      v
+    end
+
+    (required_part_list + optional_part_list).flatten
+  end
+  
   
   private
   def set_item_uuid
@@ -62,6 +82,13 @@ Spree::LineItem.class_eval do
       [e.variant, e.quantity]
     end
     self.item_uuid = self.class.build_item_uuid(self.variant, options_with_quantity)
+  end
+
+  def kit_sufficient_stock?
+    checks = self.variant.required_parts_for_display.map do |part|
+      Spree::Stock::Quantifier.new(part.id).can_supply? part.count_part
+    end
+    checks.inject(true) { |r, bool| r = r && bool; r}     
   end
 
   #

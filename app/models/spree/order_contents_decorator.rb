@@ -36,5 +36,6 @@ Spree::OrderContents.class_eval do
     order.reload
     line_item
   end
- 
+
+  
 end

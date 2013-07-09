@@ -3,22 +3,40 @@ module Spree
     AvailabilityValidator.class_eval do
 
       def validate(line_item)
-        unless validate_variant(line_item.variant_id, line_item.quantity)
+        variant = Spree::Variant.find(line_item.variant_id)
+        method = (variant.product.isa_kit? ? :validate_kit : :validate_product)
+
+        send(method, line_item, variant)        
+      end
+      
+      private
+      def validate_kit(line_item, variant)
+        line_item.required_and_optional_parts.each &validator(line_item) 
+      end
+
+      
+      def validate_product(line_item, variant)
+        quantifier = Stock::Quantifier.new(line_item.variant_id)
+
+        unless quantifier.can_supply? line_item.quantity
           line_item.errors[:quantity] << I18n.t('validation.exceeds_available_stock')
         end
-        return false unless line_item.errors[:quantity].blank?
-        line_item.line_item_options.each do |option|
-          unless validate_variant(option.variant_id, option.quantity)
+        
+      end
+      
+      def validate_variant(variant_id, quantity)
+        quantifier = Stock::Quantifier.new(variant_id)
+        quantifier.can_supply?(quantity)
+      end
+
+      def validator(line_item)
+        lambda do |part|
+          unless validate_variant(part.id, (line_item.quantity * part.count_part))
             line_item.errors[:quantity] << I18n.t('validation.exceeds_available_stock')
           end
         end
       end
       
-      private
-      def validate_variant(variant_id, quantity)
-        quantifier = Stock::Quantifier.new(variant_id)
-        quantifier.can_supply?(quantity)
-      end
     end
   end
 end

@@ -18,8 +18,10 @@ module Spree
     end
 
     def verify(line_item, shipment = nil)
+      Rails.logger.info ">>>>>>>>>>>>: Calling verify from OrderInventoryAssembly"
       if order.completed? || shipment.present?
         options = line_item.line_item_options.map do |o|
+          Rails.logger.info "------------------->>>>>>>>>>>>>>>>>>>>>>>>>>> Checking line_item options #{o.inspect}"
           variant = o.variant
           variant.count_part = o.quantity
           variant
@@ -29,21 +31,26 @@ module Spree
         
         parts_and_options = (parts + options).flatten
 
+        Rails.logger.info "------------------->>>>>>>>>>>>>>>>>>>>>>>>>>> ABOUT TO ADD PARTS OF KITS"
         parts_and_options.each do |variant|
           quantity = variant.count_part
+          Rails.logger.info ">>>>>>>>>>>>: variant : #{variant.inspect} count: #{quantity}"
           variant_units = inventory_units_for(variant)
           
           if variant_units.size < quantity
             quantity = quantity - variant_units.size
             
             shipment = determine_target_shipment(variant) unless shipment
+            Rails.logger.info "------------------->>>>>>>>>>>>>>>>>>>>>>>>>>> Adding ship: #{shipment.inspect} -- variant #{variant.inspect} -- qty #{quantity}"
             add_to_shipment(shipment, variant, quantity)
           elsif variant_units.size > quantity
+            Rails.logger.info "------------------->>>>>>>>>>>>>>>>>>>>>>>>>>> REMOVE ship: #{shipment.inspect} -- variant #{variant.inspect} -- qty #{quantity}"
             remove(variant, quantity, variant_units, shipment)
           end
         end
         
       else
+        Rails.logger.info "--------------------------------------->>>>>>>>>>>>: [OrderInventoryAssembly]: verify returns true"
         true
       end
     end
@@ -73,6 +80,7 @@ module Spree
     # first unshipped that's leaving from a stock_location that stocks this variant
     #
     def determine_target_shipment(variant)
+      Rails.logger.info ">>>>>>>>>>>>: #{Calling determine_target_shipment from OrderInventoryAssembly} variant #{variant.inspect}"
       shipment = order.shipments.detect do |shipment|
         (shipment.ready? || shipment.pending?) && shipment.include?(variant)
       end

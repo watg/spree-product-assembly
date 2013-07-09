@@ -17,6 +17,7 @@ Spree::OrderInventory.class_eval do
         remove(line_item, variant_units, shipment)
       end
     else
+
       true
     end
   end

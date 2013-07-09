@@ -1,12 +1,8 @@
 <td class="cart-item-description" data-hook="cart_item_description">
-  <% has_kit_options = !line_item.line_item_options.blank? %>
-  <h4><%= link_to variant.product.name, product_path(variant.product) %></h4>
-  <% if has_kit_options %>
+ <h4><%= link_to variant.product.name, product_path(variant.product) %></h4>
+  <% if line_item.product.isa_kit? %>
     <ul class='assembly_parts'>
       <li>(1 * <%= line_item.variant.display_price %>) <%= variant.options_text %>
-        <% if @order.insufficient_stock_lines.include? line_item %>
-        <span class="out-of-stock"><%= Spree.t(:out_of_stock) %>&nbsp;&nbsp;<br /></span>
-        <% end %>
         <%= line_item_description(variant) %>
       </li>
       <% line_item.line_item_options.each do |o| %>
