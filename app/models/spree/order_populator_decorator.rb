@@ -1,6 +1,4 @@
-Spree::OrderPopulator.class_eval do
-  
-  #
+Spree::OrderPopulator.class_eval do  
   # Parameters can be passed using the following possible
   # parameter configurations:
   #
@@ -49,9 +47,20 @@ Spree::OrderPopulator.class_eval do
   end
   
   def check_stock_levels_for_variant_and_options(variant, quantity, options=[])
-    variant_check = [check_stock_levels(variant, quantity)]
-    options_check = options.map do |e|
-      check_stock_levels(e[0], e[1])
+    variant_check, options_check = [[],[]]
+    
+    if variant.product.isa_kit?
+      # Check stock for required parts
+      variant_check = variant.parts_for_display.map do |e|
+        check_stock_levels(e, e.count_part)
+      end
+
+      # Check stock for optional parts
+      options_check = options.map do |e|
+        check_stock_levels(e[0], e[1])
+      end      
+    else
+      variant_check = [check_stock_levels(variant, quantity)]
     end
     is_all_stock_levels_ok?(variant_check, options_check)
   end
