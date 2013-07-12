@@ -38,7 +38,7 @@ module Spree
             end
           end
          end
-    Rails.logger.info "------------>>>>>>>>>>>> package : #{package.inspect}"
+
         package
       end
     end
