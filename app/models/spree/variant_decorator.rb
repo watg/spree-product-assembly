@@ -52,11 +52,10 @@ Spree::Variant.class_eval do
   end
   
   def kit_price_in(currency)
-    variant_price_in(currency) || Spree::Price.new(variant_id: self.id, currency: currency, is_kit: true)
+    kit_prices.select{ |price| price.currency == currency }.first || Spree::Price.new(variant_id: self.id, currency: currency, is_kit: true)
   end
 
-  
-  
+    
   private
 
   def variant_price_in(currency)
