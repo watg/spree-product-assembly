@@ -52,15 +52,7 @@ Spree::Variant.class_eval do
   end
   
   def kit_price_in(currency)
-    if variant_price_in(currency).amount.blank?
-      if product_price_in(currency).amount.blank?
-        Spree::Price.new(variant_id: self.id, currency: currency, is_kit: true)
-      else
-        product_price_in(currency)
-      end
-    else
-      variant_price_in(currency)
-    end
+    variant_price_in(currency) || Spree::Price.new(variant_id: self.id, currency: currency, is_kit: true)
   end
 
   
