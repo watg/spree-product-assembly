@@ -7,7 +7,7 @@ Spree::ProductsController.class_eval do
     def price_in_pence(obj,currency)
       method = (obj.is_master ? :price_in : :kit_price_in)
       price = obj.send(method, currency).price || 0
-      ( price * 100 * item_quantity(obj) ).to_i
+      ( price * 100 * item_quantity(obj) ).to_i rescue 0
     end
     def currency_symbol(string)
       string[0]
