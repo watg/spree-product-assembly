@@ -4,8 +4,8 @@ Spree::ProductsController.class_eval do
       obj.respond_to?(:count_part) ? obj.count_part : 1
     end
     def price_in_pence(obj,currency)
-      method = (obj.is_master ? :price_in : :kit_price_in) || 0
-      (obj.send(method, currency).price * 100 * item_quantity(obj) ).to_i
+      method = (obj.is_master ? :price_in : :kit_price_in) 
+      ((obj.send(method, currency).price || 0) * 100 * item_quantity(obj) ).to_i
     end
 
     def currency_symbol(string)
