@@ -40,15 +40,41 @@ Spree::Variant.class_eval do
   delegate_belongs_to :product, :product_type, :isa_part?
 
   def price_in(currency)
-    prices.select{ |price| price.currency == currency }.first || Spree::Price.new(variant_id: self.id, currency: currency, is_kit: false)
+    if variant_price_in(currency).amount.blank?
+      if product_price_in(currency).amount.blank?
+         Spree::Price.new(variant_id: self.id, currency: currency, is_kit: false)
+      else
+        product_price_in(currency)
+      end
+    else
+      variant_price_in(currency)
+    end
+  end
+  
+  def kit_price_in(currency)
+    if variant_price_in(currency).amount.blank?
+      if product_price_in(currency).amount.blank?
+        Spree::Price.new(variant_id: self.id, currency: currency, is_kit: true)
+      else
+        product_price_in(currency)
+      end
+    else
+      variant_price_in(currency)
+    end
   end
 
-  def kit_price_in(currency)
-    kit_prices.select{ |price| price.currency == currency }.first || Spree::Price.new(variant_id: self.id, currency: currency, is_kit: true)
-  end
   
   
   private
+
+  def variant_price_in(currency)
+    prices.select{ |price| price.currency == currency }.first
+  end
+
+  def product_price_in(currency)
+    self.product.master.prices.select{ |price| price.currency == currency }.first
+  end
+  
   def save_kit_price
     if variant_kit_price
       variant_kit_price.is_kit= true
