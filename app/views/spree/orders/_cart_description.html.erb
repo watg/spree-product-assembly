@@ -1,6 +1,7 @@
 <td class="cart-item-description" data-hook="cart_item_description">
  <h4><%= link_to variant.product.name, product_path(variant.product) %></h4>
   <% if line_item.product.assembly? %>
+  <%= currency %>
     <ul class='assembly_parts'>
       <li>(1 * <%= line_item.variant.display_amount.to_html %>) <%= variant.options_text %>
         <%= line_item_description(variant) %>
