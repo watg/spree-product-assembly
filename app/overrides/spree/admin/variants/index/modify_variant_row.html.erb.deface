@@ -7,7 +7,7 @@
   <td><%= variant.options_text %></td>
   <td class="align-center"><%= variant.display_price.to_html %></td>
   <% if @product.isa_part? %>
-  <td class="align-center"><%= variant.display_kit_price.to_html%> </td>
+    <td class="align-center"><%= variant.display_kit_price.to_html%> </td>
   <% end %>
   <% if @product.isa_kit? %>
     <td>
@@ -21,6 +21,10 @@
         <% end %>
       </table>
     </td>
+
+    <% elsif @product.isa_virtual_product? %>
+    <td> <%= variant.parts.first.name %> ( <%= variant.parts.first.option_values.map(&:presentation).join(', ') %> ) </td>
+
   <% end %>
 
   <td class="actions">

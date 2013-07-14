@@ -27,7 +27,7 @@ class Spree::Admin::VariantPartsController < Spree::Admin::PartsController
     end
 
     def available_admin_item_parts_url(variant)
-      available_admin_product_variant_parts_url(variant)
+      available_admin_product_variant_parts_url(variant.product, variant)
     end
 
   end

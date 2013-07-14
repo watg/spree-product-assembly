@@ -12,6 +12,7 @@ Spree::Core::Engine.routes.append do
           end
           collection do
             post :available
+            post :available_parts
             get  :selected
           end
         end
@@ -25,6 +26,7 @@ Spree::Core::Engine.routes.append do
         end
         collection do
           post :available
+          post :available_parts
           get  :selected
         end
       end

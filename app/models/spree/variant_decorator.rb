@@ -5,9 +5,10 @@ Spree::Variant.class_eval do
     :join_table => "spree_assemblies_parts",
     :foreign_key => "part_id", :association_foreign_key => "assembly_id"
 
-  attr_accessible :label, :kit_price
 
-  attr_accessor :count_part, :optional_part
+  attr_accessible :label, :kit_price, :part_id
+
+  attr_accessor :count_part, :optional_part, :part_id
 
   def can_have_optional_parts?
     false
@@ -36,8 +37,9 @@ Spree::Variant.class_eval do
   dependent: :destroy
   
   after_save :save_kit_price
+  after_save :save_parts
 
-  delegate_belongs_to :product, :product_type, :isa_part?
+  delegate_belongs_to :product, :product_type, :isa_part?, :isa_virtual_product?
 
   def price_in(currency)
     prices.select{ |price| price.currency == currency }.first || Spree::Price.new(variant_id: self.id, currency: currency, is_kit: false)
@@ -46,7 +48,16 @@ Spree::Variant.class_eval do
   def kit_price_in(currency)
     kit_prices.select{ |price| price.currency == currency }.first || Spree::Price.new(variant_id: self.id, currency: currency, is_kit: true)
   end
-  
+
+  def first_part_id
+    first_part = self.parts.first
+    if first_part
+      first_part.id
+    else
+      nil
+    end
+  end
+
   
   private
   def save_kit_price
@@ -55,4 +66,14 @@ Spree::Variant.class_eval do
       variant_kit_price.save
     end
   end
+
+  def save_parts
+    if isa_virtual_product? and part_id
+      self.assemblies_parts.each { |ap| ap.destroy }
+      #part_ids.each do |part_id|
+        self.assemblies_parts.create( :part_id => part_id, :optional => false, :count => 1 )
+      #end
+    end
+  end
+
 end

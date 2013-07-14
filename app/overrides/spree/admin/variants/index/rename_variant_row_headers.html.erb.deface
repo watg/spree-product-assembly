@@ -9,6 +9,8 @@
     <% end %>
      <% if @product.isa_kit? %>
       <th><%= Spree.t(:parts) %></th>
+     <% elsif @product.isa_virtual_product? %>
+      <th><%= Spree.t(:part) %></th>
     <% end %>
 
     <th class="actions"></th>

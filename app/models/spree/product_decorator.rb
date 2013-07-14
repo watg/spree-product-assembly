@@ -7,6 +7,7 @@ Spree::Product.class_eval do
   
   scope :individual_saled, where(["spree_products.individual_sale = ?", true])
 
+
   scope :active, lambda { |*args|
     not_deleted.individual_saled.available(nil, args.first)
   }
@@ -14,7 +15,7 @@ Spree::Product.class_eval do
   delegate_belongs_to :master, :kit_price
   attr_accessible :can_be_part, :individual_sale, :product_type, :kit_price
 
-  TYPES = [ :kit, :product ]
+  TYPES = [ :kit, :product, :virtual_product ]
 
   def isa_part?
     product_type.to_sym == :product && can_be_part == true 
@@ -22,6 +23,10 @@ Spree::Product.class_eval do
 
   def isa_product?
     product_type.to_sym == :product
+  end
+
+  def isa_virtual_product?
+    product_type.to_sym == :virtual_product
   end
 
   def isa_kit?

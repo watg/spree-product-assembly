@@ -27,7 +27,6 @@ class Spree::Admin::ProductPartsController < Spree::Admin::PartsController
       available_admin_product_parts_url(product)
     end
 
-
   end
 
 end
