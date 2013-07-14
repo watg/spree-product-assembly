@@ -71,7 +71,7 @@
    });
 
    $("#optional-parts ul input").on('change', function(e){
-   var variant_price = "$234.33";
+   var variant_price = "";
    variant_price = format_price($("#product-price .price").data('price').toString());
    update_kit_total_price(variant_price);
    });
