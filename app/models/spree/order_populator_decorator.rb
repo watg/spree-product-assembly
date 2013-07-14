@@ -49,7 +49,7 @@ Spree::OrderPopulator.class_eval do
   def check_stock_levels_for_variant_and_options(variant, quantity, options=[])
     variant_check, options_check = [[],[]]
     
-    if variant.product.isa_kit?
+    if variant.product.can_have_parts?
       # Check stock for required parts
       variant_check = variant.parts_for_display.map do |e|
         check_stock_levels(e, e.count_part)

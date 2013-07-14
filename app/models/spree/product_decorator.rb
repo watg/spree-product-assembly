@@ -37,6 +37,10 @@ Spree::Product.class_eval do
     true
   end
 
+  def can_have_parts?
+    isa_kit? or isa_virtual_product?
+  end
+
   private
   # Builds variants from a hash of option types & values
   def build_variants_from_option_values_hash

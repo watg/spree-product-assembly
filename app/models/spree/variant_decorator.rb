@@ -39,7 +39,7 @@ Spree::Variant.class_eval do
   after_save :save_kit_price
   after_save :save_parts
 
-  delegate_belongs_to :product, :product_type, :isa_part?, :isa_virtual_product?
+  delegate_belongs_to :product, :product_type, :isa_part?, :isa_virtual_product?, :isa_kit?, :can_have_parts?
 
   def price_in(currency)
     if variant_price_in(currency).blank?

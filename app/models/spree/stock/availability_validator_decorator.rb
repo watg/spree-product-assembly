@@ -4,7 +4,7 @@ module Spree
 
       def validate(line_item)
         variant = Spree::Variant.find(line_item.variant_id)
-        method = (variant.product.isa_kit? ? :validate_kit : :validate_product)
+        method = (variant.product.can_have_parts? ? :validate_kit : :validate_product)
 
         send(method, line_item, variant)        
       end

@@ -57,7 +57,7 @@ Spree::LineItem.class_eval do
   end
 
   def sufficient_stock?
-    if self.product.isa_kit?
+    if self.product.can_have_parts?
       kit_sufficient_stock?
     else
       Spree::Stock::Quantifier.new(variant_id).can_supply? quantity
@@ -94,7 +94,7 @@ Spree::LineItem.class_eval do
   #
   # based on product type
   def update_inventory
-    if self.product.isa_kit?
+    if self.product.can_have_parts?
       Spree::OrderInventoryAssembly.new(self).verify(target_shipment)
     else
       Spree::OrderInventory.new(self.order).verify(self, target_shipment)
