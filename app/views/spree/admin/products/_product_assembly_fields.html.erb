@@ -1,15 +1,19 @@
-<% if @product.isa_product? %>
 <div class="twelve columns alpha omega">
   <fieldset>
     <legend align="center"><%= Spree.t(:options) %></legend>
 
-    <div class="six columns alpha ">
-      <%= f.label :individual_sale, t("individual_sale")%>
-      <%= f.check_box(:individual_sale) %>
+     <div class="four columns alpha ">
+      <%= f.label :view_on_index_page, t("view_on_index_page")%>
+      <%= f.check_box(:view_on_index_page) %>
     </div>
-    <div class="six columns omega ">
+
+    <div class="four columns">
+      <%= f.label :individual_sale, t("individual_sale")%>
+      <%= f.check_box(:individual_sale, :disabled => @product.can_have_parts?) %>
+    </div>
+    <div class="four columns omega ">
       <%= f.label :can_be_part, t("can_be_part")%>
-      <%= f.check_box(:can_be_part) %>
+      <%= f.check_box(:can_be_part, :disabled => @product.can_have_parts?) %>
     </div>
 
     <% if @product.assembly? %>
@@ -23,4 +27,3 @@
     <% end %>
   </fieldset>
 </div>
-<% end %>

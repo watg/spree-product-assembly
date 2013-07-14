@@ -13,7 +13,7 @@ Spree::Product.class_eval do
   }
 
   delegate_belongs_to :master, :kit_price
-  attr_accessible :can_be_part, :individual_sale, :product_type, :kit_price
+  attr_accessible :can_be_part, :individual_sale, :product_type, :kit_price, :view_on_index_page
 
   TYPES = [ :kit, :product, :virtual_product ]
 
