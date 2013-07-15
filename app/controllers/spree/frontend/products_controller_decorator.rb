@@ -12,6 +12,7 @@ Spree::ProductsController.class_eval do
     def currency_symbol(string)
       string[0]
     end
+
   end
 
 end
