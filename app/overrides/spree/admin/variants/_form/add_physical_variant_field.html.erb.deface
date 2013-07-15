@@ -1,10 +1,8 @@
 <!-- insert_top "[data-hook='admin_variant_form_fields']" -->
 <% if @product.isa_virtual_product? %>
 
-    <%= render :partial => "spree/admin/variants/autocomplete", :formats => :js %>
-
     <div data-hook="add_part_id" class="field">
-      <%= label_tag :part_id, Spree.t(:physical_variant) %>
+      <%= label_tag :part_id, Spree.t(:part) %>
       <%= f.hidden_field :part_id, { 'data-url' => available_parts_admin_product_variant_parts_url(@product, @variant) , :class => "assembly_parts_variant_autocomplete fullwidth", :value => @variant.first_part_id } %>
     </div>
 
