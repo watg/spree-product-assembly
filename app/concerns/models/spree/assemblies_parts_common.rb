@@ -5,6 +5,9 @@ module Spree::AssembliesPartsCommon
     has_many :assemblies_parts, :as => :assembly
     has_many :parts, :through => :assemblies_parts, :class_name => "Spree::Variant"
 
+    accepts_nested_attributes_for :parts, allow_destroy: true
+    accepts_nested_attributes_for :assemblies_parts, allow_destroy: true
+
     attr_accessible :label
   end
 
@@ -71,6 +74,14 @@ module Spree::AssembliesPartsCommon
     ap ? ap.count : 0
   end
 
+  def first_part_id
+    first_part = self.parts.first
+    if first_part
+      first_part.id
+    else
+      nil
+    end
+  end
 
   def kit_parts
     parts.map do |p|

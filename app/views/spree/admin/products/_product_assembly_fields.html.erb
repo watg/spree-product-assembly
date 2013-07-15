@@ -11,6 +11,7 @@
       <%= f.label :individual_sale, t("individual_sale")%>
       <%= f.check_box(:individual_sale, :disabled => @product.can_have_parts?) %>
     </div>
+
     <div class="four columns omega ">
       <%= f.label :can_be_part, t("can_be_part")%>
       <%= f.check_box(:can_be_part, :disabled => @product.can_have_parts?) %>
@@ -26,4 +27,61 @@
       <% end %>
     <% end %>
   </fieldset>
+
+<% if @product.isa_kit? %>
+  <fieldset>
+    <legend align="center"><%= Spree.t(:parts) %></legend>
+
+    <%= f.fields_for :assemblies_parts do |ap| %>
+     <%= ap.fields_for :parts do |p| %>
+       <div class="five columns">
+         <div data-hook="part" class="field">
+          <%= ap.label :part, t(:part) %>
+          <%= ap.hidden_field :id, { 'data-url' => available_parts_admin_product_parts_url(@product) , :class => "assembly_parts_variant_autocomplete fullwidth" } %>
+         </div>
+       </div>
+       <div class="two columns">
+
+         <div class="field"  data-hook="quantity" >
+           <%= p.label 'quantity', t(:quantity) %>
+           <%= p.number_field :count_part,  class: 'fullwidth' %>
+         </div>
+       </div>
+
+
+
+     <% end %>
+     <% end %>
+
+    <% @product.parts.each do |part| %> 
+
+      <div class="five columns">
+        <div data-hook="part" class="field">
+          <%= f.label :part, t(:part) %>
+          <%= f.hidden_field "parts[#{part.id}]", { 'data-url' => available_parts_admin_product_parts_url(@product) , :class => "assembly_parts_variant_autocomplete fullwidth", :value => part.id } %>
+        </div>
+      </div>
+
+      <div class="two columns">
+        <div class="field"  data-hook="quantity" >
+          <%= f.label 'quantity', t(:quantity) %>
+          <%= f.number_field :quantity,  class: 'fullwidth', value: part.count_part %>
+        </div>
+      </div>
+
+      <div class="four columns">
+        <div class="field"  data-hook="part_optional" >
+          <%= f.label :optional, t("optional")%>
+          <%= f.check_box :part_optional, :value => part.optional_part %>
+        </div>
+      </div>
+
+    <% end %>
+
+
+  </fieldset>
+
+<% end %>
+
+
 </div>

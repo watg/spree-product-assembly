@@ -2,7 +2,7 @@
 $(document).ready(function() { 
   var variant_parts_url = $(".assembly_parts_variant_autocomplete").data('url') || ''; 
   $(".assembly_parts_variant_autocomplete").select2({
-    placeholder: Spree.translations.variant_placeholder,
+    placeholder: Spree.translations.type_to_search,
     minimumInputLength: 3,
 
     initSelection: function(element, callback) {

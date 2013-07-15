@@ -15,6 +15,8 @@ Spree::Product.class_eval do
   delegate_belongs_to :master, :kit_price
   attr_accessible :can_be_part, :individual_sale, :product_type, :kit_price, :view_on_index_page
 
+
+
   TYPES = [ :kit, :product, :virtual_product ]
 
   def isa_part?
@@ -41,7 +43,20 @@ Spree::Product.class_eval do
     isa_kit? or isa_virtual_product?
   end
 
+  def part_optional
+  end
+
+  attr_accessible :parts, :quantity, :part_optional 
+  attr_accessor  :quantity, :part_optional 
+  after_save :save_parts
+
   private
+
+  def save_parts
+    puts parts.inspect
+  end 
+
+
   # Builds variants from a hash of option types & values
   def build_variants_from_option_values_hash
     ensure_option_types_exist_for_values_hash

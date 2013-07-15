@@ -56,15 +56,6 @@ Spree::Variant.class_eval do
   def kit_price_in(currency)
     kit_prices.select{ |price| price.currency == currency }.first || Spree::Price.new(variant_id: self.id, currency: currency, is_kit: true)
   end
-
-  def first_part_id
-    first_part = self.parts.first
-    if first_part
-      first_part.id
-    else
-      nil
-    end
-  end
   
   private
 
