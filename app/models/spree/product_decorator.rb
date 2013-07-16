@@ -18,19 +18,19 @@ Spree::Product.class_eval do
   TYPES = [ :kit, :product, :virtual_product ]
 
   def isa_part?
-    product_type.to_sym == :product && can_be_part == true 
+    product_type.downcase.to_sym == :product && can_be_part == true 
   end
 
   def isa_product?
-    product_type.to_sym == :product
+    product_type.downcase.to_sym == :product
   end
 
   def isa_virtual_product?
-    product_type.to_sym == :virtual_product
+    product_type.downcase.to_sym == :virtual_product
   end
 
   def isa_kit?
-    product_type.to_sym == :kit
+    product_type.downcase.to_sym == :kit
   end
 
   def can_have_optional_parts?
