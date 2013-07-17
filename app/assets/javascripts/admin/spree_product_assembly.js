@@ -1,5 +1,8 @@
 //= require admin/spree_backend
-$(document).ready(function() { 
+
+
+
+function assemblyPartsVariantAutocomplete() {
   var variant_parts_url = $(".assembly_parts_variant_autocomplete").data('url') || ''; 
   $(".assembly_parts_variant_autocomplete").select2({
     placeholder: Spree.translations.variant_placeholder,
@@ -49,6 +52,19 @@ $(document).ready(function() {
       return [variant.name, ' (', options.join(', '), ')'].join("");
     }
   })
+}
+
+
+
+$(document).ready(function() { 
+  assemblyPartsVariantAutocomplete();
+
+  // This is to fix an issue where the new form is being rendered by
+  // some javascript and not on a page reload
+  $(document).bind('ajax:success', function() { 
+    assemblyPartsVariantAutocomplete();
+  });
+
 });
 
 /// need to create a parts api controller 
