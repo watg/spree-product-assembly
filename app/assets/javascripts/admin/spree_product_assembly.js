@@ -1,7 +1,5 @@
 //= require admin/spree_backend
 
-
-
 function assemblyPartsVariantAutocomplete() {
   var variant_parts_url = $(".assembly_parts_variant_autocomplete").data('url') || ''; 
   $(".assembly_parts_variant_autocomplete").select2({

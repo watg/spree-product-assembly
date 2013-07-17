@@ -22,10 +22,8 @@
         <% end %>
       </table>
     </td>
-
    <% elsif @product.isa_virtual_product? %>
     <td> <%= variant.parts.first.name %> ( <%= variant.parts.first.option_values.map(&:presentation).join(', ') %> ) </td>
-
   <% end %>
 
   <td class="actions">
