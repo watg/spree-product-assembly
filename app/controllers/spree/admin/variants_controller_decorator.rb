@@ -5,7 +5,9 @@ Spree::Admin::VariantsController.class_eval do
 
     if @variant.part? == true
       flash[:error] = Spree.t('notice_messages.variant_is_part_of_an_assembly')
-      respond_with(@collection)
+      respond_with(@variant) do |format|
+        format.html { redirect_to admin_product_variants_url(params[:product_id]) }
+      end
     else
 
       if @variant.destroy
