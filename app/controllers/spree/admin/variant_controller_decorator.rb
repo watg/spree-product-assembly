@@ -1,4 +1,4 @@
-Spree::Admin::VariantController.class_eval do
+Spree::Admin::VariantsController.class_eval do
 
   def destroy
     @variant = Variant.find(params[:id])

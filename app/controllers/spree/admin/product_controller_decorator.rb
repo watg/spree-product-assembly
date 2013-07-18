@@ -1,4 +1,4 @@
-Spree::Admin::ProductController.class_eval do
+Spree::Admin::ProductsController.class_eval do
  
   def destroy
     @product = Product.find_by_permalink!(params[:id])
