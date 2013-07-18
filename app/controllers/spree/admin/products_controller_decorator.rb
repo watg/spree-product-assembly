@@ -1,7 +1,7 @@
 Spree::Admin::ProductsController.class_eval do
  
   def destroy
-    @product = Product.find_by_permalink!(params[:id])
+    @product = Spree::Product.find_by_permalink!(params[:id])
     if @product.variants_including_master.detect { |v| v.part? == true }
       flash[:error] = Spree.t('notice_messages.product_is_part_of_an_assembly')
       respond_with(@collection)

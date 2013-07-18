@@ -1,7 +1,7 @@
 Spree::Admin::VariantsController.class_eval do
 
   def destroy
-    @variant = Variant.find(params[:id])
+    @variant = Spree::Variant.find(params[:id])
 
     if @variant.part? == true
       flash[:error] = Spree.t('notice_messages.variant_is_part_of_an_assembly')
