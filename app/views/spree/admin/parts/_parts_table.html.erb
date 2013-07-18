@@ -13,9 +13,13 @@
   <tbody>
     <% parts_for_display.each do |part| %>
       <tr id="<%= dom_id(part, :sel)%>">
-        <td><%= part.product.name %></td>
+        <td><%= link_to part.product.try(:name), edit_admin_product_path(part.product) %></td>
         <% combination = variant_options( part ) %>
-        <td><%= !combination.empty? ? combination : ( t :none ) %></td>
+        <% if !combination.empty? %>
+            <td><%= link_to combination, edit_admin_product_variant_path(part.product,part) %></td>
+        <% else %>
+            <td><%= ( t :none ) %></td>
+        <% end %>
         <td><%= text_field_tag :count, part.count_part %></td>
         <% if item.can_have_optional_parts? %>
           <td><%= check_box_tag( 'part_optional', part.optional_part,  part.optional_part ) %></td>
