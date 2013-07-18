@@ -1,6 +1,7 @@
 <!-- insert_after '#cart-form' -->
 <% if @product.isa_kit? %>
 
+<!-- disabled by ddawson as we are not happy about the formatting for now
   <h6 class="product-section-title"><%= Spree.t(:required_parts) %></h6>
 
   <ul id="product_parts" class="product-listing" data-hook>
@@ -28,6 +29,7 @@
     <% end %>
 
   </ul>
+-->
 
 <% end %>
 
