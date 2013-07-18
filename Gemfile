@@ -4,11 +4,13 @@ gemspec
 
 gem 'spree', :github => "spree/spree"
 gem 'pry-rails'
+gem 'delayed_job_active_record'
+gem 'delayed_paperclip'
 
 group :assets do
   gem 'coffee-rails', '~> 3.2.2'
   gem 'sass-rails', '~> 3.2.6'
-gem 'therubyracer'
+  gem 'therubyracer'
 end
 
 group :test do
