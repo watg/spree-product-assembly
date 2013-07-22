@@ -58,9 +58,8 @@ Spree::Variant.class_eval do
     end
   end
 
-  def label
-    l = super.blank?
-    (l.blank? ? self.product.name : l)
+  def label_or_product_name
+    (label.blank? ? self.product.name : label)
   end
   
   private
