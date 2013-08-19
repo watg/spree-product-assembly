@@ -57,6 +57,10 @@ Spree::Variant.class_eval do
       nil
     end
   end
+
+  def label_or_product_name
+    (label.blank? ? self.product.name : label)
+  end
   
   private
 
