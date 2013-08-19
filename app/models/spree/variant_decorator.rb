@@ -6,7 +6,7 @@ Spree::Variant.class_eval do
     :foreign_key => "part_id", :association_foreign_key => "assembly_id"
 
 
-  attr_accessible :label, :kit_price, :part_id, :view_on_index_page
+  attr_accessible :label, :kit_price, :part_id
 
   attr_accessor :count_part, :optional_part, :part_id
 

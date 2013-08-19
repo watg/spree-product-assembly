@@ -1,5 +1,0 @@
-<!-- insert_bottom "[data-hook='cost_price']" -->
-<%= f.field_container :view_on_index_page do %>
-  <%= f.label :view_on_index_page, t("view_on_index_page")%>
-  <%= f.check_box(:view_on_index_page) %>
-<% end %>

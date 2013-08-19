@@ -3,11 +3,6 @@
     <legend align="center"><%= Spree.t(:options) %></legend>
 
      <div class="four columns alpha ">
-      <%= f.label :view_on_index_page, t("view_on_index_page")%>
-      <%= f.check_box(:view_on_index_page) %>
-    </div>
-
-    <div class="four columns">
       <%= f.label :individual_sale, t("individual_sale")%>
       <%= f.check_box(:individual_sale, :disabled => @product.can_have_parts?) %>
     </div>
