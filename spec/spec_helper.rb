@@ -19,6 +19,12 @@ require 'spree/testing_support/controller_requests'
 
 require 'capybara/poltergeist'
 Capybara.javascript_driver = :poltergeist
+# Capybara.register_driver :poltergeist do |app|
+#   options = {
+#     :phantomjs_options => ['--load-images=no', '--disk-cache=false'],
+#   }
+#   Capybara::Poltergeist::Driver.new(app, options)
+# end
 Capybara.default_wait_time = 5
 
 

@@ -11,24 +11,26 @@ Spree::OrderContents.class_eval do
   private
 
   def add_to_line_item(line_item, variant, quantity, currency=nil, shipment=nil, options=nil)
-
+    currency ||= Spree::Config[:currency] # default to that if none is provided
+    
     if line_item
       line_item.target_shipment = shipment
-      line_item.quantity += quantity
-      line_item.currency = currency unless currency.nil?
+      line_item.quantity       += quantity
+      line_item.currency        = currency 
       line_item.save
     else
       line_item = Spree::LineItem.new(quantity: quantity)
       line_item.target_shipment = shipment
-      line_item.variant = variant
-      if currency
-        line_item.currency = currency unless currency.nil?
-        line_item.price    = variant.price_in(currency).amount
-        line_item.add_options(options,currency)
-      else
-        line_item.price    = variant.price
-        line_item.add_options(options)
+      line_item.variant         = variant
+      line_item.currency        = currency
+      line_item.price           = variant.current_price_in(currency).amount
+      if variant.in_sale?
+        line_item.in_sale       = variant.in_sale
+        line_item.normal_price  = variant.price_normal_in(currency).amount
       end
+        
+      line_item.add_options(options,currency)
+    
       order.line_items << line_item
       line_item
     end
