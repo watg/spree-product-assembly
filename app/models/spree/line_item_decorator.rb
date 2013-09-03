@@ -74,7 +74,7 @@ Spree::LineItem.class_eval do
 
     (required_part_list + optional_part_list).flatten
   end
-  
+
   
   private
   def set_item_uuid
@@ -94,7 +94,9 @@ Spree::LineItem.class_eval do
   #
   # based on product type
   def update_inventory
-    if self.product.can_have_parts?
+    # We do not call self.product as when save is called on the line_item object it for some reason
+    # causes the product to update due to the has_one through variant relationship
+    if variant.product.can_have_parts?
       Spree::OrderInventoryAssembly.new(self).verify(target_shipment)
     else
       Spree::OrderInventory.new(self.order).verify(self, target_shipment)
