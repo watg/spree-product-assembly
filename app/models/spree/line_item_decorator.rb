@@ -8,7 +8,7 @@ Spree::LineItem.class_eval do
 
     def build_item_uuid(variant,options_with_qty)
       options_with_qty = [] if options_with_qty.blank?
-      uuid = options_with_qty.sort{|a,b| a[0].id < b[0].id}.map do |e|
+      uuid = options_with_qty.sort{|a,b| a[0].id <=> b[0].id }.map do |e|
         "#{e[0].id}-#{e[1]}"
       end
       uuid.unshift(variant.id)
