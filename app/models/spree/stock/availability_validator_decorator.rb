@@ -19,7 +19,7 @@ module Spree
         quantifier = Stock::Quantifier.new(line_item.variant_id)
 
         unless quantifier.can_supply? line_item.quantity
-          line_item.errors[:quantity] << I18n.t('validation.exceeds_available_stock')
+          line_item.errors[:quantity] << Spree.t('validation.exceeds_available_stock')
         end
         
       end
@@ -32,7 +32,7 @@ module Spree
       def validator(line_item)
         lambda do |part|
           unless validate_variant(part.id, (line_item.quantity * part.count_part))
-            line_item.errors[:quantity] << I18n.t('validation.exceeds_available_stock')
+            line_item.errors[:quantity] << Spree.t('validation.exceeds_available_stock')
           end
         end
       end
