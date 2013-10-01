@@ -3,10 +3,6 @@
 <thead data-hook="variants_header">
   <tr>
     <th colspan="2"><%= Spree.t(:combination) %></th>
-    <th><%= Spree.t(:price) %></th>
-     <% if @product.isa_part? %>
-      <th><%= Spree.t(:kit_price) %></th>
-    <% end %>
      <% if @product.isa_kit? %>
       <th><%= Spree.t(:parts) %></th>
      <% elsif @product.isa_virtual_product? %>
