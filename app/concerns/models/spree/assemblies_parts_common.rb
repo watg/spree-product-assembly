@@ -71,7 +71,6 @@ module Spree::AssembliesPartsCommon
     ap ? ap.count : 0
   end
 
-
   def kit_parts
     parts.map do |p|
       # this is to have the count of the part counted by the variant

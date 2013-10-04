@@ -51,6 +51,10 @@ Spree::Variant.class_eval do
     end
   end
 
+  def required_parts_for_display
+    super + product.parts_for_display( :optional => false )  
+  end
+
   def label_or_product_name
     (label.blank? ? self.product.name : label)
   end
