@@ -41,6 +41,7 @@ Spree::Variant.class_eval do
 
   delegate_belongs_to :product, :product_type, :isa_part?, :isa_virtual_product?, :isa_kit?, :can_have_parts?
 
+  alias :required_parts :required_parts_for_display
   
   def first_part_id
     first_part = self.parts.first
@@ -52,7 +53,7 @@ Spree::Variant.class_eval do
   end
 
   def required_parts_for_display
-    super + product.parts_for_display( :optional => false )  
+    super + product.required_parts_for_display
   end
 
   def label_or_product_name
