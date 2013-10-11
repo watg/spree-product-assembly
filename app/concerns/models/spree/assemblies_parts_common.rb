@@ -5,7 +5,7 @@ module Spree::AssembliesPartsCommon
     has_many :assemblies_parts, :as => :assembly
     has_many :parts, :through => :assemblies_parts, :class_name => "Spree::Variant"
 
-    attr_accessible :label
+    #attr_accessible :label
   end
 
   def required_parts_for_display
@@ -17,7 +17,7 @@ module Spree::AssembliesPartsCommon
   end
 
   def parts_for_display( options = {} )
-     self.assemblies_parts.where( options ).all.map do |ap|
+     self.assemblies_parts.where( options ).map do |ap|
        p = Spree::Variant.find(ap.part_id)
        p.count_part = ap ? ap.count : 0
        p.optional_part = ap.optional

@@ -6,7 +6,7 @@ Spree::Variant.class_eval do
     :foreign_key => "part_id", :association_foreign_key => "assembly_id"
 
 
-  attr_accessible :label, :kit_price, :part_id
+  #attr_accessible :label, :kit_price, :part_id
 
   attr_accessor :count_part, :optional_part, :part_id
 
@@ -15,25 +15,25 @@ Spree::Variant.class_eval do
   end
 
   has_one :default_price,
+  -> { where(currency: Spree::Config[:currency], is_kit: false) },
   class_name: 'Spree::Price',
-  conditions: proc { { currency: Spree::Config[:currency], is_kit: false  }},
   dependent: :destroy
   
   has_one :variant_kit_price,
+  -> { where(currency: Spree::Config[:currency], is_kit: true) },
   class_name: 'Spree::Price',
-  conditions: proc { { currency: Spree::Config[:currency], is_kit: true } },
   dependent: :destroy
   
   delegate_belongs_to :variant_kit_price, :kit_price, :kit_price=, :display_kit_price
 
   has_many :prices,
+  -> { where is_kit: false },
   class_name: 'Spree::Price',
-  conditions: {is_kit: false},
   dependent: :destroy
   
   has_many :kit_prices,
+  -> { where is_kit: true },
   class_name: 'Spree::Price',
-  conditions: {is_kit: true},
   dependent: :destroy
   
   after_save :save_kit_price

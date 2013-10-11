@@ -5,7 +5,7 @@ Spree::Product.class_eval do
         :join_table => "spree_assemblies_parts",
         :foreign_key => "part_id", :association_foreign_key => "assembly_id"
   
-  scope :individual_saled, where(["spree_products.individual_sale = ?", true])
+  scope :individual_saled, -> { where(["spree_products.individual_sale = ?", true]) }
 
 
   scope :active, lambda { |*args|
@@ -13,7 +13,7 @@ Spree::Product.class_eval do
   }
 
   delegate_belongs_to :master, :kit_price
-  attr_accessible :can_be_part, :individual_sale, :product_type, :kit_price
+  #attr_accessible :can_be_part, :individual_sale, :product_type, :kit_price
 
   TYPES = [ :kit, :product, :virtual_product ] unless defined?(TYPES)
 
