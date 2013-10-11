@@ -15,7 +15,7 @@ Spree::Product.class_eval do
   delegate_belongs_to :master, :kit_price
   attr_accessible :can_be_part, :individual_sale, :product_type, :kit_price
 
-  TYPES = [ :kit, :product, :virtual_product ] unless defined?(TYPES)
+  TYPES = [ :kit, :product, :virtual_product, :pattern, :parcel ] unless defined?(TYPES)
 
   def isa_part?
     product_type.downcase.to_sym == :product && can_be_part == true 
