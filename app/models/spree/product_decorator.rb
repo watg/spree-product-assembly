@@ -13,8 +13,7 @@ Spree::Product.class_eval do
   }
 
   delegate_belongs_to :master, :kit_price
-  #attr_accessible :can_be_part, :individual_sale, :product_type, :kit_price
-
+ 
   TYPES = [ :kit, :product, :virtual_product ] unless defined?(TYPES)
 
   def isa_part?
@@ -51,7 +50,7 @@ Spree::Product.class_eval do
     values.each do |ids|
       attrs = { option_value_ids: ids, price: master.price, label: master.name }
       attrs.merge!(kit_price: master.kit_price) if master.kit_price
-      variant = variants.create(attrs, without_protection: true)
+      variant = variants.create(attrs)
     end
     save
   end

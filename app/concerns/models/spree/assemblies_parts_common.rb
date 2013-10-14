@@ -4,8 +4,6 @@ module Spree::AssembliesPartsCommon
   included do
     has_many :assemblies_parts, :as => :assembly
     has_many :parts, :through => :assemblies_parts, :class_name => "Spree::Variant"
-
-    #attr_accessible :label
   end
 
   def required_parts_for_display

@@ -1,42 +1,34 @@
 module Spree
   module Stock
-    AvailabilityValidator.class_eval do
-
+    # Overriden from spree core to make it also check for assembly parts stock
+    class AvailabilityValidator < ActiveModel::Validator
       def validate(line_item)
-        variant = Spree::Variant.find(line_item.variant_id)
-        method = (variant.product.can_have_parts? ? :validate_kit : :validate_product)
-
-        send(method, line_item, variant)        
-      end
-      
-      private
-      def validate_kit(line_item, variant)
-        line_item.required_and_optional_parts.each &validator(line_item) 
-      end
-
-      
-      def validate_product(line_item, variant)
-        quantifier = Stock::Quantifier.new(line_item.variant_id)
-
-        unless quantifier.can_supply? line_item.quantity
-          line_item.errors[:quantity] << Spree.t('validation.exceeds_available_stock')
+        if shipment = line_item.target_shipment
+          units = shipment.inventory_units_for(line_item.variant)
+          return if units.count > line_item.quantity
+          quantity = line_item.quantity - units.count
+        else
+          quantity = line_item.quantity
         end
-        
-      end
-      
-      def validate_variant(variant_id, quantity)
-        quantifier = Stock::Quantifier.new(variant_id)
-        quantifier.can_supply?(quantity)
-      end
 
-      def validator(line_item)
-        lambda do |part|
-          unless validate_variant(part.id, (line_item.quantity * part.count_part))
-            line_item.errors[:quantity] << Spree.t('validation.exceeds_available_stock')
+        product = line_item.product
+
+        valid = if product.can_have_parts?
+          line_item.required_and_optional_parts.each do |part|
+            Stock::Quantifier.new(part.id).can_supply?(part.count_part * quantity)
           end
+        else
+          Stock::Quantifier.new(line_item.variant_id).can_supply? quantity
+        end
+
+        unless valid
+          variant = line_item.variant
+          display_name = %Q{#{variant.name}}
+          display_name += %Q{ (#{variant.options_text})} unless variant.options_text.blank?
+
+          line_item.errors[:quantity] << Spree.t(:out_of_stock, :scope => :order_populator, :item => display_name.inspect)
         end
       end
-      
     end
   end
 end

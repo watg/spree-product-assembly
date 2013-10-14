@@ -6,7 +6,7 @@ STNHAOESUNTHAEOUSNTAEHUSNAOTEUHAOESNTUHAOSENUTHAOESNUTH
   <% if line_item.product.assembly? %>
     <ul class='assembly_parts'>
       <li>(1 * <%= line_item.variant.display_amount.to_html %>) <%= variant.options_text %>
-        <%= line_item_description(variant) %>
+        <%= line_item_description_text(line_item.description) %>
       </li>
       <% line_item.line_item_options.each do |o| %>
       <li>(<%= o.quantity %> * <%= o.variant.display_amount.to_html %>) <%= link_to o.variant.name, product_path(o.variant.product) %></li>
@@ -18,7 +18,7 @@ STNHAOESUNTHAEOUSNTAEHUSNAOTEUHAOESNTUHAOSENUTHAOESNUTH
     <% if @order.insufficient_stock_lines.include? line_item %>
       <span class="out-of-stock"><%= Spree.t(:out_of_stock) %>&nbsp;&nbsp;<br /></span>
     <% end %>
-    <%= line_item_description(variant) %>
+    <%= line_item_description_text(line_item.description) %>
   <% end %>
 
 </td>

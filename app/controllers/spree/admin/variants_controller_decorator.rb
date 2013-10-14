@@ -8,8 +8,8 @@ Spree::Admin::VariantsController.class_eval do
       respond_with(@variant) do |format|
         format.html { redirect_to admin_product_variants_url(params[:product_id]) }
       end
+      
     else
-
       if @variant.destroy
         flash[:success] = Spree.t('notice_messages.variant_deleted')
       else

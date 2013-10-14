@@ -80,7 +80,7 @@ module Spree
     # first unshipped that's leaving from a stock_location that stocks this variant
     #
     def determine_target_shipment(variant)
-      Rails.logger.info ">>>>>>>>>>>>: #{Calling determine_target_shipment from OrderInventoryAssembly} variant #{variant.inspect}"
+      Rails.logger.info ">>>>>>>>>>>>: Calling determine_target_shipment from OrderInventoryAssembly variant #{variant.inspect}"
       shipment = order.shipments.detect do |shipment|
         (shipment.ready? || shipment.pending?) && shipment.include?(variant)
       end
@@ -95,13 +95,13 @@ module Spree
       on_hand, back_order = shipment.stock_location.fill_status(variant, quantity)
 
       on_hand.times do
-        shipment.inventory_units.create({variant_id: variant.id,
-                                          state: 'on_hand'}, without_protection: true)
+        shipment.inventory_units.create(variant_id: variant.id,
+                                          state: 'on_hand')
       end
 
       back_order.times do
-        shipment.inventory_units.create({variant_id: variant.id,
-                                          state: 'backordered'}, without_protection: true)
+        shipment.inventory_units.create(variant_id: variant.id,
+                                          state: 'backordered')
       end
 
 

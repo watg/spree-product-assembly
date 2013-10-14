@@ -5,9 +5,6 @@ Spree::Variant.class_eval do
     :join_table => "spree_assemblies_parts",
     :foreign_key => "part_id", :association_foreign_key => "assembly_id"
 
-
-  #attr_accessible :label, :kit_price, :part_id
-
   attr_accessor :count_part, :optional_part, :part_id
 
   def can_have_optional_parts?
